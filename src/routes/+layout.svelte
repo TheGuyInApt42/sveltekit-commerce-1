@@ -14,15 +14,30 @@
 
   onMount(async () => {
     if (typeof window !== 'undefined') {
-      cartId = JSON.parse(localStorage.getItem('cartId'));
+      const cartIdString = localStorage.getItem('cartId');
+      if (cartIdString !== null && cartIdString !== 'undefined') {
+      // Parse the value only if it's not null
+        cartId = JSON.parse(cartIdString);
+        console.log('id is', cartId);
+      } else {
+        console.log('Cart ID is not available in local storage.');
+      }
       cartCreatedAt = JSON.parse(localStorage.getItem('cartCreatedAt'));
-      checkoutUrl = JSON.parse(localStorage.getItem('cartUrl'));
+      const checkoutUrlString = localStorage.getItem('cartUrl');
+      if (checkoutUrlString !== null && checkoutUrlString !== 'undefined') {
+      // Parse the value only if it's not null
+        checkoutUrl = JSON.parse(checkoutUrlString);
+        console.log('id is', checkoutUrl);
+      } else {
+        console.log('Cart URL is not available in local storage.');
+      }
+
 
       let currentDate = Date.now();
       let difference = currentDate - cartCreatedAt;
       let totalDays = Math.ceil(difference / (1000 * 3600 * 24));
       let cartIdExpired = totalDays > 6;
-      if (cartId === 'undefined' || cartId === 'null' || cartIdExpired) {
+      if (cartIdString === 'undefined' || cartIdString === 'null' || cartIdExpired) {
         await callCreateCart();
       }
       await loadCart();
@@ -36,8 +51,9 @@
   });
 
   async function callCreateCart() {
+    console.log('create');
     const cartRes = await createCart();
-
+    
     if (typeof window !== 'undefined') {
       localStorage.setItem('cartCreatedAt', Date.now());
       localStorage.setItem('cartId', JSON.stringify(cartRes.body?.data?.cartCreate?.cart?.id));
@@ -49,6 +65,7 @@
   }
 
   async function loadCart() {
+    console.log('load');
     const res = await getCartItems();
     cartItems = res?.body?.data?.cart?.lines?.edges;
   }
