@@ -7,6 +7,8 @@
 
   $: clothesCollection = data.products[0]?.node?.products?.edges;
   $: featuredCollection = data.products[1]?.node?.products?.edges;
+  $: console.log(clothesCollection);
+  $: console.log(featuredCollection);
 </script>
 
 <svelte:head>

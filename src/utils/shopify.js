@@ -1,9 +1,10 @@
+//import { SHOPIFY_API_ENDPOINT } from '$env/static/private';
+//import { SHOPIFY_STOREFRONT_API_TOKEN } from '$env/static/private';
+
 export async function shopifyFetch({ query, variables }) {
   const endpoint =
-    import.meta.env.VITE_SHOPIFY_API_ENDPOINT ||
-    'https://next-js-store.myshopify.com/api/2021-10/graphql.json';
-  const key =
-    import.meta.env.VITE_SHOPIFY_STOREFRONT_API_TOKEN || 'ef7d41c7bf7e1c214074d0d3047bcd7b';
+    'https://playntradetest.myshopify.com/api/2024-04/graphql.json';
+  const key = 'e52747a7f34bb20083e17f94b797e444';
 
 
   try {
