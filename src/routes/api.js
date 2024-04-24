@@ -1,10 +1,7 @@
 import { SHOPIFY_API_ENDPOINT } from '$env/static/private';
 import { SHOPIFY_STOREFRONT_API_TOKEN } from '$env/static/private';
 
-export async function api(data) {
-  let body = data && JSON.stringify(data);
-  //console.log(body);
-
+export async function shopifyFetch({ query, variables }) {
   try {
     const result = await fetch(SHOPIFY_API_ENDPOINT, {
       method: 'POST',
@@ -14,6 +11,8 @@ export async function api(data) {
       },
       body: { query, variables } && JSON.stringify({ query, variables })
     });
+
+    //console.log(await result.clone().json());
 
     return {
       status: result.status,

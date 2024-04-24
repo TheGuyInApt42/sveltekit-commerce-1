@@ -22,7 +22,7 @@
     </div>
   </section>
   <section>
-    <Carousel items={clothesCollection} />
+    <Carousel items={featuredCollection} />
   </section>
   <section>
     <div
