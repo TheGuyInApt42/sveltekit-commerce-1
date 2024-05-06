@@ -1,55 +1,41 @@
 <script>
-  import '../app.css';
-  import Header from '$components/Header.svelte';
-  import Footer from '$components/Footer.svelte';
-  import ShoppingCart from '$components/ShoppingCart.svelte';
-  import { getCartItems } from '../store';
-  import { onMount } from 'svelte';
-  import { createCart } from '$utils/shopify';
+	import { onMount } from 'svelte';
+	import Header from '$lib/components/header/Header.svelte';
 
+  // shopping cart 
+  import ShoppingCart from '$lib/components/shopping-cart/ShoppingCart.svelte';
+  import { getCartItems } from '../store';
+  import { createCart } from '$utils/shopify';
+	import Headroom from '$lib/components/headroom/Headroom.svelte'
+	import FooterSocial from '$lib/components/footer-social/FooterSocial.svelte'
+	import Banner from '$lib/components/banner/Banner.svelte'
+	import { page } from '$app/stores';
+	import "../app.postcss";
+
+
+  // Variables
   let cartId;
   let checkoutUrl;
   let cartCreatedAt;
   let cartItems = [];
 
-  onMount(async () => {
-    if (typeof window !== 'undefined') {
-      const cartIdString = localStorage.getItem('cartId');
-      if (cartIdString !== null && cartIdString !== 'undefined') {
-      // Parse the value only if it's not null
-        cartId = JSON.parse(cartIdString);
-        console.log('id is', cartId);
-      } else {
-        console.log('Cart ID is not available in local storage.');
-      }
-      cartCreatedAt = JSON.parse(localStorage.getItem('cartCreatedAt'));
-      const checkoutUrlString = localStorage.getItem('cartUrl');
-      if (checkoutUrlString !== null && checkoutUrlString !== 'undefined') {
-      // Parse the value only if it's not null
-        checkoutUrl = JSON.parse(checkoutUrlString);
-        console.log('id is', checkoutUrl);
-      } else {
-        console.log('Cart URL is not available in local storage.');
-      }
+	const today = new Date().getDay();
+
+	let address = `<p class="font-display playntrade-dark-blue">125 Gateway Dr</p>
+                    <p class="font-display playntrade-dark-blue">Mechanicsburg, PA 17050</p>            
+                    <a class="font-display playntrade-turquoise" href="tel:7177372324">Tel: (717) 737-2324</a>`
+
+	let hours = `<p class="font-display playntrade-dark-blue" data-id="1">Mon. 	11:00am – 8:00pm</p>
+        <p class="font-display playntrade-dark-blue" data-id="2">Tue. 	11:00am – 8:00pm</p>
+            <p class="font-display playntrade-dark-blue" data-id="3">Wed. 	11:00am – 8:00pm</p>
+                <p class="font-display playntrade-dark-blue" data-id="4">Thu. 	11:00am – 8:00pm</p>
+                    <p class="font-display playntrade-dark-blue" data-id="5">Fri. 	11:00am – 8:00pm</p>
+                        <p class="font-display playntrade-dark-blue" data-id="6">Sat. 	11:00am – 8:00pm</p>
+                            <p class="font-display playntrade-dark-blue" data-id="0">Sun. 	12pm – 5pm</p>`
 
 
-      let currentDate = Date.now();
-      let difference = currentDate - cartCreatedAt;
-      let totalDays = Math.ceil(difference / (1000 * 3600 * 24));
-      let cartIdExpired = totalDays > 6;
-      if (cartIdString === 'undefined' || cartIdString === 'null' || cartIdExpired) {
-        await callCreateCart();
-      }
-      await loadCart();
-      document.addEventListener('keydown', (e) => {
-        let keyCode = e.keyCode;
-        if (keyCode === 27) {
-          showCart = false;
-        }
-      });
-    }
-  });
 
+  //Functions
   async function callCreateCart() {
     console.log('create');
     const cartRes = await createCart();
@@ -65,7 +51,6 @@
   }
 
   async function loadCart() {
-    console.log('load');
     const res = await getCartItems();
     cartItems = res?.body?.data?.cart?.lines?.edges;
   }
@@ -74,6 +59,10 @@
   let loading = false;
 
   async function openCart() {
+    console.log('parent open');
+    let alert = document.querySelector('.alert')
+  
+    alert.style.display = 'none'
     await loadCart();
     showCart = true;
   }
@@ -112,10 +101,88 @@
     await loadCart();
     loading = false;
   }
+
+
+
+
+
+	onMount(async() =>{
+		let todayHours = document.querySelector(`[data-id='${today}']`)
+		let highlightedDay = 'text-xl font-bold playntrade-turquoise'.split(' ')
+		todayHours.classList.add(...highlightedDay)
+
+    if (typeof window !== 'undefined') {
+      const cartIdString = localStorage.getItem('cartId');
+      if (cartIdString !== null && cartIdString !== 'undefined') {
+      // Parse the value only if it's not null
+        cartId = JSON.parse(cartIdString);
+        //console.log('id is', cartId);
+      } else {
+        console.log('Cart ID is not available in local storage.');
+      }
+      cartCreatedAt = JSON.parse(localStorage.getItem('cartCreatedAt'));
+      const checkoutUrlString = localStorage.getItem('cartUrl');
+      if (checkoutUrlString !== null && checkoutUrlString !== 'undefined') {
+      // Parse the value only if it's not null
+        checkoutUrl = JSON.parse(checkoutUrlString);
+        //console.log('id is', checkoutUrl);
+      } else {
+        console.log('Cart URL is not available in local storage.');
+      }
+
+
+      let currentDate = Date.now();
+      let difference = currentDate - cartCreatedAt;
+      let totalDays = Math.ceil(difference / (1000 * 3600 * 24));
+      let cartIdExpired = totalDays > 6;
+      if (cartIdString === 'undefined' || cartIdString === 'null' || cartIdExpired) {
+        await callCreateCart();
+      }
+      await loadCart();
+      document.addEventListener('keydown', (e) => {
+        let keyCode = e.keyCode;
+        if (keyCode === 27) {
+          showCart = false;
+        }
+      });
+    }
+		
+		
+	})
+
+	
+
+
 </script>
 
-<main class={`${showCart ? 'h-screen' : 'min-h-screen'} text-white overflow-hidden`}>
-  {#if showCart}
+<div class="flex flex-col">
+	<div id="header-wrapper">
+		<Headroom>
+	<Header on:openCart={openCart}/>
+
+
+	<!-- <div role="alert" class="alert shadow-lg bg-black border-black border-none">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+  <div>
+    <h3 class="font-bold playntrade-blue">Website still in reconstruction!</h3> -->
+    <!-- <div class="text-xs">Check out our current deals!</div> -->
+  <!-- </div> -->
+  <!-- <button class="btn btn-sm">See</button> -->
+<!-- </div>  -->
+
+
+	</Headroom>
+	</div>
+	<!-- Check page route to see if should show banner-->
+  
+	{#if $page.url.pathname === '/about' || $page.url.pathname === '/contact'}
+		<Banner bannerImg={'/images/sliderptn.jpg'} alt={'picture of inside store'} />
+	{/if}
+	
+
+
+<main class={`${showCart ? 'h-screen' : 'min-h-screen'} overflow-hidden`}>
+	{#if showCart}
     <ShoppingCart
       items={cartItems}
       on:click={hideCart}
@@ -125,9 +192,46 @@
       bind:loading
     />
   {/if}
-  <Header on:openCart={openCart} />
-  <div class="min-h-screen overflow-scroll">
-    <slot />
-    <Footer />
-  </div>
+
+  <slot></slot>
 </main>
+
+<footer>
+	<FooterSocial address={address} hours={hours} />
+</footer>
+
+</div>
+
+
+<style>
+	main {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		padding: 0 2rem;
+		width: 100%;
+		background-color: var(--playntrade-blue);
+		
+
+		box-sizing: border-box;
+		position: relative;
+
+	}
+
+	#header-wrapper{
+		height: 90px;
+	}
+
+
+	footer {
+        
+        background: var(--black);
+    }
+
+	@media (min-width: 480px) {
+		footer {
+			padding: 2.5rem;
+		}
+	}
+
+</style>

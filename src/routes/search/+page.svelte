@@ -13,8 +13,8 @@
     : data.body.allProducts.edges;
 </script>
 
-<div>
-  <ul class="grid grid-flow-row gap-4 sm:grid-cols-2 md:grid-cols-3">
+<div class="py-8">
+  <ul class="grid grid-flow-row gap-4 sm:grid-cols-2 md:grid-cols-5">
     {#each displayedProducts as product, i (product.node.id)}
       <li>
         <div class="group relative block aspect-square overflow-hidden bg-dark">

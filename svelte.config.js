@@ -7,7 +7,8 @@ const config = {
     adapter: adapter(),
     alias: {
       $components: 'src/components',
-      $utils: 'src/utils'
+      $utils: 'src/utils',
+      $lib: 'src/lib'
     }
   },
   preprocess: [

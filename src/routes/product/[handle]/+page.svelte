@@ -131,7 +131,7 @@
           </div>
         {/each}
         <p class="text-sm">{data.body.product.description}</p>
-        <div class="mt-8 flex items-center justify-between">
+        <!-- <div class="mt-8 flex items-center justify-between">
           <div class="flex items-center">
             <div class="mr-1">
               <Icons type="star" />
@@ -150,7 +150,7 @@
             </div>
           </div>
           <div class="text-sm opacity-50">36 Reviews</div>
-        </div>
+        </div> -->
         <button
           on:click={addToCart}
           class="mt-6 flex w-full items-center justify-center bg-light p-4 text-sm uppercase tracking-wide text-black opacity-90 hover:opacity-100"
@@ -176,7 +176,7 @@
       </div>
     </div>
     <div class="px-4 py-8">
-      <div class="mb-4 text-3xl font-bold">Related Products</div>
+      <div class="mb-4 text-3xl font-bold text-black">Related Products</div>
       <ul class="grid grid-flow-row grid-cols-2 gap-4 md:grid-cols-4">
         {#each data.body.featuredProducts as product, i (product.node.id)}
           <li>

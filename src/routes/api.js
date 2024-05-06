@@ -1,5 +1,24 @@
 import { SHOPIFY_API_ENDPOINT } from '$env/static/private';
 import { SHOPIFY_STOREFRONT_API_TOKEN } from '$env/static/private';
+import { IGDB_API_KEY } from '$env/static/private';
+import { IGDB_CLIENT_ID } from '$env/static/private';
+
+const base = 'https://api.igdb.com/v4';
+
+export async function api(method, resource, data) {
+  let body = data && JSON.stringify(data);
+  //console.log(body);
+
+  return fetch(`${base}/${resource}`, {
+    method,
+    headers: {
+      Accept: 'application/json',
+      'Client-ID': `${IGDB_CLIENT_ID}`,
+      Authorization: `Bearer ${IGDB_API_KEY}`
+    },
+    body: data
+  });
+}
 
 export async function shopifyFetch({ query, variables }) {
   try {

@@ -37,10 +37,10 @@
     />
     {#if !removeLabels}
       <div class="absolute top-0 left-0">
-        <div class="bg-black p-3 text-2xl  font-medium">
+        <div class="bg-black p-3 text-2xl  font-medium text-accent-color">
           {title}
         </div>
-        <div class="w-fit bg-black p-3 text-sm">
+        <div class="w-fit bg-black p-3 text-sm text-accent-color">
           ${price}
           {currencyCode}
         </div>
