@@ -23,11 +23,11 @@
     data-test="grid-tile"
     {href}
     data-sveltekit-prefetch
-    class="focus:border-blue-500 focus:border-2 relative flex h-full w-full items-center justify-center"
+    class="relative flex h-full w-full items-center justify-center focus:border-2 focus:border-blue-500"
   >
     <img
       alt={title}
-      class={`w-full md:w-1/2 lg:w-full flex-none transition duration-300 ease-in-out ${
+      class={`w-full flex-none transition duration-300 ease-in-out md:w-1/2 lg:w-full ${
         hover ? 'scale-110' : ''
       }`}
       fetchpriority={priority === 'eager' ? 'high' : 'low'}
@@ -36,8 +36,8 @@
       src={imageSrc}
     />
     {#if !removeLabels}
-      <div class="absolute top-0 left-0">
-        <div class="bg-black p-3 text-2xl  font-medium text-accent-color">
+      <div class="roboto-text absolute left-0 top-0">
+        <div class=" bg-black p-3  text-2xl font-medium text-white">
           {title}
         </div>
         <div class="w-fit bg-black p-3 text-sm text-accent-color">
@@ -48,3 +48,9 @@
     {/if}
   </a>
 </div>
+
+<style>
+  .roboto-text {
+    font-family: 'Roboto Mono', monospace;
+  }
+</style>
