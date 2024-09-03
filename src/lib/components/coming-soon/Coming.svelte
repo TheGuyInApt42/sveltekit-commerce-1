@@ -1,4 +1,14 @@
 <script>
+  import GridTile from '$components/GridTile.svelte';
+  import { onMount } from 'svelte';
+  export let products = [];
+  //console.log(releases);
+  let displayedProducts = [];
+
+  onMount(async () => {
+    displayedProducts = await products[3].node?.products?.edges;
+    //console.log(displayedProducts);
+  });
   //NOTE: https://codepen.io/danielmorales/pen/gVbqBW
 </script>
 

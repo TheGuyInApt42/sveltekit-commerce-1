@@ -3,6 +3,7 @@
   import DescriptionToggle from '$components/DescriptionToggle.svelte';
   import Icons from '$components/Icons.svelte';
   import { getCartItems } from '../../../store.js';
+  import DataLogger from '$lib/components/data-logger/DataLogger.svelte';
 
   /** @type {import('./$types').PageData} */
   export let data;
@@ -66,32 +67,27 @@
   <title>{data.body.product.title}</title>
 </svelte:head>
 
-<div>
+<div class="mt-4">
   {#if data.body.product}
     <div class="flex flex-col md:flex-row">
       <div class="md:h-90 md:w-2/3">
         {#key highlightedImageSrc}
           <div class="relative h-4/5 bg-light">
-            <GridTile
-              title={data.body.product.title}
-              price={data.body.product.priceRange.maxVariantPrice.amount}
-              currencyCode={data.body.product.priceRange.maxVariantPrice.currencyCode}
-              imageSrc={highlightedImageSrc}
-            />
+            <GridTile imageSrc={highlightedImageSrc} />
             {#if data.body.product?.images?.edges.length > 1}
-              <div class="absolute right-0 bottom-0 z-40 p-6 ">
+              <div class="absolute bottom-0 right-0 z-40 p-6 ">
                 <button
                   on:click={() => {
                     changeHighlightedImage('back');
                   }}
-                  class="border border-b border-t border-l border-black py-4 px-8"
+                  class="border border-b border-l border-t border-black px-8 py-4"
                   ><Icons type="arrowLeft" /></button
                 >
                 <button
                   on:click={() => {
                     changeHighlightedImage('next');
                   }}
-                  class="-ml-1 border border-black py-4 px-8"><Icons type="arrowRight" /></button
+                  class="-ml-1 border border-black px-8 py-4"><Icons type="arrowRight" /></button
                 >
               </div>
             {/if}
@@ -111,9 +107,19 @@
         </div>
       </div>
       <div class="h-full p-6 md:w-1/3">
+        <h1>
+          {data.body.product.title}
+        </h1>
+        <span class="price">
+          {#if selectedOptions.Condition == 'New'}
+            {data.body.product.variants.edges[0].node.priceV2.amount}
+          {:else}
+            {data.body.product.variants.edges[1].node.priceV2.amount}
+          {/if}
+        </span>
         {#each data.body.product.options as option}
           <div class="mb-8">
-            <div class="mb-4 text-sm uppercase tracking-wide">{option.name}</div>
+            <div class="mb-4 text-sm font-bold uppercase tracking-wide">{option.name}</div>
             <div class="flex">
               {#each option.values as value}
                 <button
@@ -122,7 +128,7 @@
                   }}
                   class={`${value.length <= 3 ? 'w-12' : 'px-2'} ${
                     selectedOptions[option.name] === value ? 'opacity-100' : 'opacity-60'
-                  } transition duration-300 ease-in-out hover:scale-110 hover:opacity-100 border-white h-12 mr-3 flex items-center justify-center rounded-full border`}
+                  } mr-3 flex h-12 items-center justify-center rounded-full border border-white transition duration-300 ease-in-out hover:scale-110 hover:opacity-100`}
                 >
                   {value}
                 </button>
@@ -130,6 +136,7 @@
             </div>
           </div>
         {/each}
+
         <p class="text-sm">{data.body.product.description}</p>
         <!-- <div class="mt-8 flex items-center justify-between">
           <div class="flex items-center">

@@ -1,22 +1,23 @@
 <script>
   import { onMount } from 'svelte';
   import GridTile from '$components/GridTile.svelte';
+  import Button from '../button/Button.svelte';
   export let products = [];
   //console.log(releases);
   let displayedProducts = [];
 
   onMount(async () => {
-    displayedProducts = await products[5].node?.products?.edges;
+    displayedProducts = await products[2].node?.products?.edges;
     //console.log(displayedProducts);
   });
 </script>
 
-<section
-  id="upcoming"
+<div
+  id="deals"
   class="prose prose-black flex flex-col gap-4 pt-16 lg:prose-xl prose-p:text-black prose-strong:text-black
 	prose-ol:text-black prose-ul:text-xl prose-ul:text-black"
 >
-  <h2 class="mb-8 text-center text-black">Coming Soon</h2>
+  <h2 class="mb-8 text-center text-black">Check Out Our Deals</h2>
   <div>
     <ul class="grid grid-flow-row gap-4 sm:grid-cols-2 md:grid-cols-3">
       {#each displayedProducts as product, i (product.node.id)}
@@ -36,4 +37,15 @@
       {/each}
     </ul>
   </div>
-</section>
+
+  <Button text={'See All Deals'} route={'/deals'} />
+</div>
+
+<style>
+  h2 {
+    text-decoration: underline;
+    text-decoration-color: var(--playntrade-turquoise);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.5rem;
+  }
+</style>

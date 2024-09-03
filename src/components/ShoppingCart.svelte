@@ -43,9 +43,9 @@
   on:click|self
   class="absolute inset-0 z-50 flex max-h-screen w-full justify-end overflow-hidden bg-black/50"
 >
-  <div class="z-50 w-full bg-black p-6 md:w-1/2 lg:w-1/3 relative">
+  <div class="relative z-50 w-full bg-black p-6 md:w-1/2 lg:w-1/3">
     {#if loading}
-      <div class="absolute inset-0 bg-black/50 z-50" />
+      <div class="absolute inset-0 z-50 bg-black/50" />
     {/if}
     <div class="mb-6 flex w-full items-center justify-between">
       <div class="text-2xl font-medium">My Cart</div>
@@ -72,10 +72,10 @@
           <div class="ml-4 flex w-full flex-col justify-between">
             <div class="flex w-full justify-between">
               <di>
-                <p class="text-lg font-medium">{item.node.merchandise.product.title}</p>
-                <p class="text-sm">{item.node.merchandise.title}</p>
+                <p class="text-lg font-medium text-white">{item.node.merchandise.product.title}</p>
+                <p class="text-sm text-white">{item.node.merchandise.title}</p>
               </di>
-              <p class="font-medium">${item.node.estimatedCost.totalAmount.amount}</p>
+              <p class="font-medium text-white">${item.node.estimatedCost.totalAmount.amount}</p>
             </div>
           </div>
         </div>

@@ -1,54 +1,49 @@
 <script>
   import { page } from '$app/stores';
   import Icons from '../icons/Icons.svelte';
-	import { cartQuantity } from '../../../store';
-	import SearchBar from '../searchbar/SearchBar.svelte';
+  import { cart, cartQuantity } from '../../../store';
+  import SearchBar from '../searchbar/SearchBar.svelte';
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
-  const logo = "http://camphillplayntrade.com/wp-content/uploads/2015/01/ptnlogo.png";
+  const logo = 'http://camphillplayntrade.com/wp-content/uploads/2015/01/ptnlogo.png';
 
-  	$: currentRoute = $page.url.pathname;
+  $: currentRoute = $page.url.pathname;
 
-	let showMenu = false;
+  let showMenu = false;
 
   let tabs = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' }
+    { name: 'Contact', path: '/contact' },
+    { name: 'Account', path: 'account/login' }
   ];
   function openCart() {
     console.log('open');
     showMenu = false;
     dispatch('openCart', true);
   }
+
+  console.log($cartQuantity);
 </script>
 
-<nav class="flex items-center border-b  p-4 lg:px-6  drop-shadow-lg bg-black h-[90px]">
+<nav class="flex h-[90px] items-center  border-b bg-black  p-4 drop-shadow-lg lg:px-6">
   <div class="flex w-1/3 items-center">
     <div class="mr-4" class:active={currentRoute === '/'}>
       <a href="/" data-sveltekit-prefetch class="">
         <picture>
           <source srcset={logo} type="image/png" />
-          <img
-            alt="PNT Logo"
-            
-            decoding="async"
-            
-            loading="eager"
-            src={logo}
-         
-          />
+          <img alt="PNT Logo" decoding="async" loading="eager" src={logo} />
         </picture>
       </a>
     </div>
-    <div class="hidden lg:flex links-wrapper">
+    <div class="links-wrapper hidden lg:flex">
       {#each tabs as tab, i (tab.name)}
         <div class:active={currentRoute === tab.path}>
           <a
             data-sveltekit-prefetch
             href={tab.path}
-            class={`hover:opacity-100 px-2 py-1 nav-link rounded-lg ${
+            class={`nav-link rounded-lg px-2 py-1 hover:opacity-100 ${
               currentRoute === tab.path ? 'opacity-100' : 'opacity-75'
             }`}>{tab.name}</a
           >
@@ -60,11 +55,11 @@
     <SearchBar />
   </div>
   <div class="ml-auto flex items-center">
-    <button on:click={openCart} class="relative my-2 mx-4">
+    <button on:click={openCart} class="relative mx-4 my-2">
       <Icons strokeColor="#fff" type="cart" />
       <div
         data-test="cart-quantity"
-        class="absolute bottom-0 left-0 -ml-3 -mb-3 flex h-5 w-5 items-center justify-center rounded-full border border-black bg-white text-xs text-black"
+        class="absolute bottom-0 left-0 -mb-3 -ml-3 flex h-5 w-5 items-center justify-center rounded-full border border-black bg-white text-xs text-black"
       >
         {$cartQuantity}
       </div>
@@ -99,7 +94,7 @@
           <button on:click={openCart} class="relative mr-4">
             <Icons strokeColor="#fff" type="cart" />
             <div
-              class="absolute bottom-0 left-0 -ml-3 -mb-3 flex h-5 w-5 items-center justify-center rounded-full border border-black bg-white text-xs text-black"
+              class="absolute bottom-0 left-0 -mb-3 -ml-3 flex h-5 w-5 items-center justify-center rounded-full border border-black bg-white text-xs text-black"
             >
               {$cartQuantity}
             </div>
@@ -116,7 +111,7 @@
               <a
                 data-sveltekit-prefetch
                 href={tab.path}
-                class={`hover:opacity-100 px-2 py-1 text-white font-bold text-xl rounded-lg ${
+                class={`rounded-lg px-2 py-1 text-xl font-bold text-white hover:opacity-100 ${
                   currentRoute === tab.path ? 'opacity-100' : 'opacity-75'
                 }`}>{tab.name}</a
               >
@@ -128,42 +123,40 @@
   {/if}
 </nav>
 
-
 <style>
-    .nav-link{
-        display: flex;
-		height: 100%;
-		align-items: center;
-		padding: 0 1em;
-		color: var(--playntrade-dark-blue);
-		font-weight: 700;
-	
-		text-transform: uppercase;
-		letter-spacing: 10%;
-		text-decoration: none;
-		transition: color 0.2s linear;
+  .nav-link {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 0 1em;
+    color: var(--playntrade-dark-blue);
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 10%;
+    text-decoration: none;
+    transition: color 0.2s linear;
+  }
+
+  a:hover {
+    color: var(--playntrade-turquoise);
+  }
+
+  @media screen and (min-width: 768px) {
+    .links-wrapper div {
+      position: relative;
+      height: 100%;
     }
-
-    a:hover {
-		color: var(--playntrade-turquoise);
-		
-	}
-
-    @media screen and (min-width: 768px){
-	.links-wrapper div {
-		position: relative;
-		height: 100%;
-	}
-	}
-	.links-wrapper div.active::before {
-		--size: 6px;
-		content: '';
-		width: 0;
-		height: 0;
-		position: absolute;
-		top: -25%;
-		left: calc(50% - var(--size));
-		border: var(--size) solid transparent;
-		border-top: var(--size) solid var(--playntrade-turquoise);
-	}
+  }
+  .links-wrapper div.active::before {
+    --size: 6px;
+    content: '';
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -25%;
+    left: calc(50% - var(--size));
+    border: var(--size) solid transparent;
+    border-top: var(--size) solid var(--playntrade-turquoise);
+  }
 </style>

@@ -218,7 +218,7 @@ const getComingSoon = async () => {
     });
 
     const fixedReleases = getBiggerCover(gamesWithPlatformNames);
-    console.log('f=============', fixedReleases);
+    //console.log('f=============', fixedReleases);
     return fixedReleases;
   }
 

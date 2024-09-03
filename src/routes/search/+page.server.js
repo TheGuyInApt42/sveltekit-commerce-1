@@ -6,6 +6,7 @@ export async function load() {
 
   if (res.status === 200) {
     const allProducts = res.body?.data.products;
+    //const { edges, pageInfo } = res.body?.data.products;
 
     if (allProducts) {
       return {
@@ -13,8 +14,8 @@ export async function load() {
       };
     }
 
-    throw error(404)
-  }  else {
-    throw error(res.status)
+    throw error(404);
+  } else {
+    throw error(res.status);
   }
 }

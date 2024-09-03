@@ -18,6 +18,10 @@
       link: 'search/new'
     },
     {
+      title: 'Upcoming',
+      link: 'upcoming'
+    },
+    {
       title: 'Xbox',
       link: 'search/xbox'
     },
@@ -29,9 +33,8 @@
       title: 'Switch',
       link: 'search/switch'
     }
-  ]
+  ];
 </script>
-
 
 <div class="flex">
   <nav class="col-span-2 hidden w-1/6 flex-none py-8 pl-6 lg:block">
@@ -39,16 +42,15 @@
     <ul>
       {#each categories as category}
         <li class="mt-2 text-sm text-gray-300">
-        <a
-          data-sveltekit-prefetch
-          data-testid="category-link"
-          aria-selected="true"
-          class="whitespace-nowrap hover:underline focus:underline text-black hover:decoration-accent-color"
-          href={category.link}>{category.title}</a
-        >
-      </li>
+          <a
+            data-sveltekit-prefetch
+            data-testid="category-link"
+            aria-selected="true"
+            class="whitespace-nowrap text-black hover:underline hover:decoration-accent-color focus:underline"
+            href={category.link}>{category.title}</a
+          >
+        </li>
       {/each}
-     
     </ul>
   </nav>
   <div class="min-h-screen">

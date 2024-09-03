@@ -1,3 +1,9 @@
+/**
+ * Sends a fetch request to Shopify's Storefront API.
+ *
+ * @param {object} options - Fetch options including the query and variables.
+ * @returns {Promise<object>} - Promise resolving to the API response.
+ */
 export async function shopifyFetch({ query, variables }) {
   const endpoint = 'https://playntradetest.myshopify.com/api/2024-04/graphql.json';
   const key = 'e52747a7f34bb20083e17f94b797e444';
@@ -396,4 +402,110 @@ export async function addToCart({ cartId, variantId }) {
       ]
     }
   });
+}
+
+/**
+ * Logs in a customer and retrieves an access token.
+ *
+ * @param {string} email - The email address of the customer.
+ * @param {string} password - The password of the customer.
+ * @returns {Promise<void>} - Promise resolving when the login process is complete.
+ */
+export async function loginCustomer(email, password) {
+  const query = `
+        mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+            customerAccessTokenCreate(input: $input) {
+                customerAccessToken {
+                    accessToken
+                    expiresAt
+                }
+                userErrors {
+                    field
+                    message
+                }
+            }
+        }
+    `;
+
+  const variables = {
+    input: {
+      email: email,
+      password: password
+    }
+  };
+
+  try {
+    const response = await shopifyFetch({ query, variables });
+    console.log('response: ', response.body);
+    handleLoginResponse(response);
+  } catch (error) {
+    console.error('Error during login:', error);
+  }
+}
+
+/**
+ * Handles the response from the login request.
+ *
+ * @param {object} response - The response object from the API.
+ */
+function handleLoginResponse(response) {
+  const { data } = response;
+  const { customerAccessTokenCreate } = data;
+
+  if (customerAccessTokenCreate.customerAccessToken) {
+    console.log('Login successful!', customerAccessTokenCreate.customerAccessToken.accessToken);
+    // Store the access token in your session or local storage
+  } else {
+    console.error('Login error:', customerAccessTokenCreate.userErrors);
+  }
+}
+
+/**
+ * Logs out a customer by deleting their access token.
+ *
+ * @param {string} accessToken - The access token of the customer to be logged out.
+ * @returns {Promise<void>} - Promise resolving when the logout process is complete.
+ */
+export async function logoutCustomer(accessToken) {
+  const query = `
+        mutation customerAccessTokenDelete($input: CustomerAccessTokenDeleteInput!) {
+            customerAccessTokenDelete(input: $input) {
+                deletedAccessToken
+                userErrors {
+                    field
+                    message
+                }
+            }
+        }
+    `;
+
+  const variables = {
+    input: {
+      customerAccessToken: accessToken
+    }
+  };
+
+  try {
+    const response = await shopifyFetch({ query, variables });
+    handleLogoutResponse(response);
+  } catch (error) {
+    console.error('Error during logout:', error);
+  }
+}
+
+/**
+ * Handles the response from the logout request.
+ *
+ * @param {object} response - The response object from the API.
+ */
+function handleLogoutResponse(response) {
+  const { data } = response;
+  const { customerAccessTokenDelete } = data;
+
+  if (customerAccessTokenDelete.deletedAccessToken) {
+    console.log('Logout successful!');
+    // Clear the access token from your session or local storage
+  } else {
+    console.error('Logout error:', customerAccessTokenDelete.userErrors);
+  }
 }
