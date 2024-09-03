@@ -7,7 +7,7 @@
     event.preventDefault();
 
     try {
-      const response = await fetch('/api/subscribe', {
+      const response = await fetch('/api/klaviyo', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

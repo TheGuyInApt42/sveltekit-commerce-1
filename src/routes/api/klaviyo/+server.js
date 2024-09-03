@@ -56,8 +56,12 @@ export async function POST({ request }) {
     // Handle successful subscription
     return json({ success: true, data: response }, { status: 200 });
   } catch (error) {
-    // Handle any errors that occurred
-    console.error('Error adding members to the list:', error.response?.data || error.message);
+    // Handle errors
+    console.error('Error subscribing profile:', {
+      message: error.message,
+      response: error.response?.data || 'No response data',
+      stack: error.stack
+    });
     return json({ success: false, error: 'An error occurred while subscribing' }, { status: 500 });
   }
 }
