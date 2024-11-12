@@ -4,16 +4,16 @@
   import '@shopify/shopify-api/adapters/node';
 
   /* const shopify = shopifyApi({
-    apiKey: '620f7beb1ae387d8d6ab2f9b413c28db',
-    apiSecretKey: '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',
+    apiKey: ,
+    apiSecretKey: ,
     scopes: ['read_products', 'unauthenticated_read_customers'],
     isCustomStoreApp: true,
     //domain: 'playntradetest.myshopify.com',
-    privateAppStorefrontAccessToken: 'e52747a7f34bb20083e17f94b797e444',
+    privateAppStorefrontAccessToken: ,
 
     //apiVersion: ApiVersion.July22,
     hostName: 'localhost:5175',
-    adminApiAccessToken: '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'
+    adminApiAccessToken: 
   }); */
 
   const handleSubmit = async (event) => {
