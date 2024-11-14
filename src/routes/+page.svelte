@@ -113,7 +113,7 @@
   </section>
 
   <h1 class="text-center">Play N Trade Camp Hill</h1>
-  <NewsletterSignup />
+  <!-- <NewsletterSignup /> -->
 
   <section
     class="prose prose-black flex flex-col gap-4 pt-16 lg:prose-xl prose-p:text-black prose-strong:text-black prose-ol:text-xl
@@ -210,9 +210,9 @@
     <ComingSoon {products} />
   </section>
 
-  <section class="py-16">
+  <!-- <section class="py-16">
     <Facebook />
-  </section>
+  </section> -->
 
   <div class="divider pb-8 before:bg-black after:bg-black">
     <h4 class="text-bold text-2xl text-black">Come Check Us Out!</h4>

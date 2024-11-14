@@ -15,8 +15,8 @@
   let tabs = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
-    { name: 'Account', path: 'account/login' }
+    { name: 'Contact', path: '/contact' }
+    /* { name: 'Account', path: 'account/login' } */
   ];
   function openCart() {
     console.log('open');
