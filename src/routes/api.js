@@ -1,7 +1,7 @@
 import { SHOPIFY_API_ENDPOINT } from '$env/static/private';
 import { SHOPIFY_STOREFRONT_API_TOKEN } from '$env/static/private';
-import { IGDB_API_KEY } from '$env/static/private';
-import { IGDB_CLIENT_ID } from '$env/static/private';
+import { IGDB_API_KEY } from '$env/static/public';
+import { IGDB_CLIENT_ID } from '$env/static/public';
 
 const base = 'https://api.igdb.com/v4';
 
