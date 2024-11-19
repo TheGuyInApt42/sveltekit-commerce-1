@@ -207,9 +207,9 @@
   </div>
   <!-- Check page route to see if should show banner-->
 
-  {#if $page.url.pathname === '/about' || $page.url.pathname === '/contact'}
+  <!-- {#if $page.url.pathname === '/about' || $page.url.pathname === '/contact'}
     <Banner bannerImg={'/images/sliderptn.jpg'} alt={'picture of inside store'} />
-  {/if}
+  {/if} -->
 
   <main class={`${showCart ? 'h-screen' : 'min-h-screen'} overflow-hidden`}>
     {#if showCart}
@@ -236,7 +236,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 0 2rem;
+
     width: 100%;
     background-color: white;
 

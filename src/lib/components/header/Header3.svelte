@@ -1,5 +1,23 @@
+<script>
+  import { Search, SquareMenu } from 'svelte-lucide';
+  import { onMount } from 'svelte';
+
+  let isMenuOpen = false; // State to toggle the menu
+
+  const toggleMenu = () => {
+    isMenuOpen = !isMenuOpen;
+  };
+</script>
+
 <header class="header">
   <div class="header-container">
+    <!-- Search Icon (Visible on Mobile, Right on Desktop) -->
+    <a href="#" id="mobile-search-link" class="search-link mobile-search md:hidden">
+      <Search
+        class="search-icon p-1.5 text-[1.5rem] text-gray-800 transition-colors duration-300 ease-in-out"
+      />
+    </a>
+
     <!-- Logo -->
     <div class="logo">
       <a href="/">
@@ -10,22 +28,28 @@
       </a>
     </div>
 
+    <!-- Hamburger Menu -->
+    <button class="hamburger-menu md:hidden" on:click={toggleMenu} aria-expanded={isMenuOpen}>
+      <SquareMenu class="menu-icon text-[2rem] text-gray-800" />
+    </button>
+
     <!-- Navigation -->
-    <nav class="navigation">
+    <nav class={`navigation ${isMenuOpen ? 'open' : ''}`}>
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/about">About</a></li>
 
         <li><a href="/contact">Contact</a></li>
+        <!-- Search Icon -->
+        <li class="main-nav-search last-menu-item">
+          <a href="" id="main-nav-search-link" class="search-link desktop-search md:block">
+            <Search
+              class="search-icon p-1.5 text-[1.5rem] text-gray-800 transition-colors duration-300 ease-in-out md:text-[1.2rem]"
+            />
+          </a>
+        </li>
       </ul>
     </nav>
-
-    <!-- Search Icon -->
-    <div class="search-icon">
-      <a href="/search">
-        <span class="icon">🔍</span>
-      </a>
-    </div>
   </div>
 </header>
 
@@ -37,15 +61,10 @@
     box-sizing: border-box;
   }
 
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-  }
-
   .header {
     background-color: #fff;
     border-bottom: 1px solid #ccc;
-    padding: 10px 20px;
+    padding: 0 30px;
     position: fixed;
     width: 100%;
     height: 92px;
@@ -58,56 +77,109 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
+  }
+
+  .logo {
+    margin: 31px 0;
+    float: left;
+    overflow: hidden;
+  }
+
+  .logo a {
+    display: block;
   }
 
   .logo img {
     height: 50px;
     width: auto;
   }
+  .navigation {
+    float: right;
+    font: 14px / 16px 'MuseoSlab500Regular', arial, helvetica, sans-serif;
+    font-family: 'Antic Slab', Arial, Helvetica, sans-serif;
+  }
 
   .navigation ul {
     display: flex;
     list-style: none;
-    gap: 20px;
+    /* gap: 20px; */
+    padding: 0;
+    margin: 0;
+  }
+
+  .navigation li {
+    padding-right: 45px;
+    position: relative;
+    float: left;
+    margin: 0;
   }
 
   .navigation ul li a {
-    text-decoration: none;
-    color: #333;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: color 0.3s ease;
+    height: 83px;
+    line-height: 83px;
+    color: #333333;
+    border-color: #1a80b6;
+  }
+
+  .navigation ul li > a {
+    border-top: 3px solid transparent;
+    display: block;
+    border-top-width: 3px;
   }
 
   .navigation ul li a:hover {
     color: #007bff; /* Add a hover effect with an accent color */
   }
+  .last-menu-item {
+    padding-right: 0 !important;
+  }
 
-  .search-icon {
-    font-size: 1.5rem;
+  .navigation ul li > a.search-link {
     display: flex;
     align-items: center;
   }
 
-  .search-icon .icon {
-    color: #333;
-    transition: color 0.3s ease;
-  }
-
-  .search-icon .icon:hover {
-    color: #007bff;
-  }
-
   /* Responsive Design */
   @media screen and (max-width: 768px) {
-    .navigation ul {
-      display: none; /* Hide navigation menu on small screens */
+    .navigation {
+      display: none; /* Hide navigation by default on smaller screens */
+      position: absolute;
+      top: 92px;
+      left: 0;
+      width: 100%;
+      background: white;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px 0;
+      border-top: 1px solid #ccc;
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      transform: translateY(-100%);
+      opacity: 0;
     }
 
-    .search-icon {
-      font-size: 1.2rem;
+    .navigation.open {
+      display: flex; /* Show navigation when menu is toggled */
+      transform: translateY(0); /* Slide down effect */
+      opacity: 1; /* Fade in effect */
+    }
+
+    .hamburger-menu {
+      display: flex; /* Hamburger menu visible only on small screens */
+    }
+
+    .logo img {
+      height: auto;
+      width: auto;
+    }
+
+    .navigation ul {
+      flex-direction: column;
+    }
+
+    .navigation ul li {
+      padding: 10px 30px;
     }
   }
 </style>

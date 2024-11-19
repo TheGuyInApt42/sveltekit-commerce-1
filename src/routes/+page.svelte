@@ -61,6 +61,7 @@
   import Deals from '$lib/components/deals/Deals.svelte';
   import Facebook from '../lib/components/facebook/Facebook.svelte';
   import NewsletterSignup from '$lib/components/newsletter-signup/NewsletterSignup.svelte';
+  import Slider from '$lib/components/slider/Slider.svelte';
 
   // Start: Local component properties
   const metaData = {
@@ -106,10 +107,9 @@
 <HeadTags {metaData} />
 <!-- End: Header Tag -->
 
-<div class="container flex flex-col items-center justify-center gap-4">
-  <section class="w-full pt-4">
-    <Featured />
-    <!-- <EmblaThumbs photos={top} /> -->
+<div class="flex flex-col items-center justify-center gap-4">
+  <section class="w-full">
+    <Slider />
   </section>
 
   <h1 class="text-center">Play N Trade Camp Hill</h1>
