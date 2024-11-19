@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import Header from '$lib/components/header/Header.svelte';
+  import Header3 from '$lib/components/header/Header3.svelte';
 
   // shopping cart
   import ShoppingCart from '$lib/components/shopping-cart/ShoppingCart.svelte';
@@ -192,7 +193,7 @@
 <div class="flex flex-col">
   <div id="header-wrapper">
     <Headroom>
-      <Header on:openCart={openCart} />
+      <Header3 on:openCart={openCart} />
 
       <!-- <div role="alert" class="alert shadow-lg bg-black border-black border-none">
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -237,7 +238,7 @@
     flex-direction: column;
     padding: 0 2rem;
     width: 100%;
-    background-color: var(--playntrade-blue);
+    background-color: white;
 
     box-sizing: border-box;
     position: relative;
