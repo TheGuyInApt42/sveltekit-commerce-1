@@ -62,6 +62,8 @@
   import Facebook from '../lib/components/facebook/Facebook.svelte';
   import NewsletterSignup from '$lib/components/newsletter-signup/NewsletterSignup.svelte';
   import Slider from '$lib/components/slider/Slider.svelte';
+  import Events from '$lib/components/events/Events.svelte';
+  import NewReleases3 from '../lib/components/new-releases/NewReleases3.svelte';
 
   // Start: Local component properties
   const metaData = {
@@ -114,6 +116,11 @@
 
   <h1 class="text-center">Play N Trade Camp Hill</h1>
   <!-- <NewsletterSignup /> -->
+
+  <div class="site-content flex flex-col md:flex-row">
+    <Events />
+    <NewReleases3 />
+  </div>
 
   <section
     class="prose prose-black flex flex-col gap-4 pt-16 lg:prose-xl prose-p:text-black prose-strong:text-black prose-ol:text-xl
@@ -226,6 +233,11 @@
     justify-content: center;
     align-items: center;
     flex: 1;
+  }
+
+  .site-content {
+    max-width: 1100px;
+    margin: 0 auto;
   }
 
   ol li {
