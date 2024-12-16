@@ -23,7 +23,7 @@
   });
 </script>
 
-<div class="carousel w-full" id="carousel">
+<div class="carousel h-[80vh] w-full" id="carousel">
   <div id="slide1" class="active carousel-item relative w-full">
     <img
       src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp"
