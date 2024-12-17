@@ -3,9 +3,7 @@
   import TwoCol from '$lib/components/test/TwoCol.svelte';
   import T from '$lib/components/test/T.svelte';
   import Gem from '$lib/components/test/Gem.svelte';
-
-  import Glide from '$lib/components/slider/Glide.svelte';
-  import Glide2 from '$lib/components/slider/Glide2.svelte';
+  import Embla2 from '$lib/components/slider/Embla2.svelte';
 
   const events = [
     {
@@ -66,34 +64,11 @@
     description: 'Come on out for the ultimate gaming experience',
     image: 'http://camphillplayntrade.com/wp-content/uploads/2015/01/play.jpg'
   };
-
-  const slides = [{ content: 'Slide 1' }, { content: 'Slide 2' }, { content: 'Slide 3' }];
-
-  const carouselOptions = {
-    type: 'carousel',
-    perView: 3,
-    gap: 20,
-    autoplay: 3000,
-    breakpoints: {
-      800: {
-        perView: 2
-      },
-      480: {
-        perView: 1
-      }
-    }
-  };
 </script>
 
-<Glide options={carouselOptions} {slides}>
-  {#each slides as slide, index}
-    <Glide2 {index}>
-      <div class="slide-content">{slide.content}</div>
-    </Glide2>
-  {/each}
-</Glide>
+<Embla2 />
 
-<Gem {events} {newReleases} />
+<TwoCol {events} {newReleases} />
 
 <!-- Store Info Section -->
 <div class="section-title">

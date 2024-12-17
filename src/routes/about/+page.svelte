@@ -1,6 +1,7 @@
 <script>
   // Components
   import HeadTags from '$lib/components/head-tags/HeadTags.svelte';
+  import Banner from '$lib/components/banner/Banner.svelte';
 
   // Start: Local component properties
   const metaData = {
@@ -14,6 +15,8 @@
 <!-- Start: Header Tag -->
 <HeadTags {metaData} />
 <!-- End: Header Tag -->
+
+<Banner bannerImg="http://camphillplayntrade.com/wp-content/uploads/2015/01/sliderptn.jpg" />
 
 <div class="content prose-xl flex flex-col items-center justify-center">
   <h1>About Play N Trade</h1>
