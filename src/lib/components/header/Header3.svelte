@@ -1,22 +1,42 @@
 <script>
   import { Search, SquareMenu } from 'svelte-lucide';
+  import SearchBar from '$lib/components/searchbar/SearchBar2.svelte';
   import { onMount } from 'svelte';
 
   let isMenuOpen = false; // State to toggle the menu
+  let searchOpen = false;
 
   const toggleMenu = () => {
     isMenuOpen = !isMenuOpen;
   };
+
+  function toggleSearch() {
+    searchOpen = !searchOpen;
+    console.log('search');
+  }
+
+  function closeSearch() {
+    searchOpen = false;
+  }
 </script>
 
 <header class="header">
   <div class="header-container">
     <!-- Search Icon (Visible on Mobile, Right on Desktop) -->
-    <a href="#" id="mobile-search-link" class="search-link mobile-search md:hidden">
+    <button on:click={toggleSearch} class="search-link mobile-search md:hidden">
       <Search
         class="search-icon p-1.5 text-[1.5rem] text-gray-800 transition-colors duration-300 ease-in-out"
       />
-    </a>
+    </button>
+    {#if searchOpen}
+      <SearchBar isOpen={searchOpen} onClose={closeSearch} />
+    {/if}
+
+    <!-- <a href="#" id="mobile-search-link" class="search-link mobile-search md:hidden">
+      <Search
+        class="search-icon p-1.5 text-[1.5rem] text-gray-800 transition-colors duration-300 ease-in-out"
+      />
+    </a> -->
 
     <!-- Logo -->
     <div class="logo">
@@ -42,11 +62,15 @@
         <li><a href="/contact">Contact</a></li>
         <!-- Search Icon -->
         <li class="main-nav-search last-menu-item">
-          <a href="" id="main-nav-search-link" class="search-link desktop-search md:block">
+          <button
+            on:click={toggleSearch}
+            id="main-nav-search-link"
+            class="search-link desktop-search md:block"
+          >
             <Search
               class="search-icon p-1.5 text-[1.5rem] text-gray-800 transition-colors duration-300 ease-in-out md:text-[1.2rem]"
             />
-          </a>
+          </button>
         </li>
       </ul>
     </nav>

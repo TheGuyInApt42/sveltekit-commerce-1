@@ -44,6 +44,7 @@
     "embla-carousel-svelte": "^8.5.1",
     "klaviyo-api": "^12.0.1",
     "sass": "^1.80.7",
+    "svelte-embla": "^0.0.7",
     "tiny-invariant": "^1.3.3"
   }
 }

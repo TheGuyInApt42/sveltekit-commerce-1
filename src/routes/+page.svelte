@@ -61,7 +61,7 @@
   import Deals from '$lib/components/deals/Deals.svelte';
   import Facebook from '../lib/components/facebook/Facebook.svelte';
   import NewsletterSignup from '$lib/components/newsletter-signup/NewsletterSignup.svelte';
-  import Slider from '$lib/components/slider/Slider.svelte';
+  import Embla2 from '$lib/components/slider/Embla2.svelte';
   import Events from '$lib/components/events/Events.svelte';
   import NewReleases3 from '../lib/components/new-releases/NewReleases3.svelte';
 
@@ -111,7 +111,7 @@
 
 <div class="flex flex-col items-center justify-center gap-4">
   <section class="w-full">
-    <Slider />
+    <Embla2 />
   </section>
 
   <h1 class="text-center">Play N Trade Camp Hill</h1>
