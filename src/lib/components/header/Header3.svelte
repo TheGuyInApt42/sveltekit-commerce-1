@@ -23,14 +23,14 @@
 <header class="header">
   <div class="header-container">
     <!-- Search Icon (Visible on Mobile, Right on Desktop) -->
-    <button on:click={toggleSearch} class="search-link mobile-search md:hidden">
+    <!-- <button on:click={toggleSearch} class="search-link mobile-search md:hidden">
       <Search
         class="search-icon p-1.5 text-[1.5rem] text-gray-800 transition-colors duration-300 ease-in-out"
       />
     </button>
     {#if searchOpen}
       <SearchBar isOpen={searchOpen} onClose={closeSearch} />
-    {/if}
+    {/if} -->
 
     <!-- <a href="#" id="mobile-search-link" class="search-link mobile-search md:hidden">
       <Search
@@ -61,17 +61,15 @@
 
         <li><a href="/contact">Contact</a></li>
         <!-- Search Icon -->
-        <li class="main-nav-search last-menu-item">
+        <!-- <li class="main-nav-search last-menu-item flex justify-center">
           <button
             on:click={toggleSearch}
             id="main-nav-search-link"
-            class="search-link desktop-search md:block"
+            class="search-link desktop-search"
           >
-            <Search
-              class="search-icon p-1.5 text-[1.5rem] text-gray-800 transition-colors duration-300 ease-in-out md:text-[1.2rem]"
-            />
+            <Search size="32" class=" text-gray-800 transition-colors duration-300 ease-in-out" />
           </button>
-        </li>
+        </li> -->
       </ul>
     </nav>
   </div>

@@ -64,6 +64,8 @@
   import Embla2 from '$lib/components/slider/Embla2.svelte';
   import Events from '$lib/components/events/Events.svelte';
   import NewReleases3 from '../lib/components/new-releases/NewReleases3.svelte';
+  import Copy from '$lib/components/test/Copy.svelte';
+  import SingleCol from '../lib/components/test/SingleCol.svelte';
 
   // Start: Local component properties
   const metaData = {
@@ -86,7 +88,7 @@
   $: recent = data.recent;
   $: soon = data.soon;
   $: top = data.top;
-  $: products = data.products;
+  $: games = data.products;
   let topGames = {};
 
   //TODO: check into local storage fallback
@@ -117,10 +119,20 @@
   <h1 class="text-center">Play N Trade Camp Hill</h1>
   <!-- <NewsletterSignup /> -->
 
-  <div class="site-content flex flex-col md:flex-row">
+  <!-- <div class="flex w-full justify-center px-4 sm:px-6 md:px-8">
+    <div
+      class="divider divider-neutral w-full max-w-[280px] sm:max-w-[540px] md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1100px]"
+    >
+      <h2 class="text-center text-base sm:text-lg md:text-xl lg:text-2xl">New Released Games</h2>
+    </div>
+  </div>
+
+  <SingleCol {games} /> -->
+
+  <!--  <div class="site-content flex flex-col md:flex-row">
     <Events />
     <NewReleases3 />
-  </div>
+  </div> -->
 
   <section
     class="prose prose-black flex flex-col gap-4 pt-16 lg:prose-xl prose-p:text-black prose-strong:text-black prose-ol:text-xl
@@ -205,7 +217,7 @@
     </p>
   </section>
 
-  <section class="py-16">
+  <!-- <section class="py-16">
     <Deals {products} />
   </section>
 
@@ -215,7 +227,7 @@
 
   <section class="py-16">
     <ComingSoon {products} />
-  </section>
+  </section> -->
 
   <!-- <section class="py-16">
     <Facebook />
@@ -233,6 +245,10 @@
     justify-content: center;
     align-items: center;
     flex: 1;
+  }
+
+  h1 {
+    color: var(--playntrade-blue);
   }
 
   .site-content {

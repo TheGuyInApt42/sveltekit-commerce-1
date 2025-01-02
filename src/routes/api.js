@@ -9,6 +9,8 @@ export async function api(method, resource, data) {
   let body = data && JSON.stringify(data);
   //console.log(body);
 
+  //console.log(IGDB_API_KEY, IGDB_CLIENT_ID);
+
   return fetch(`${base}/${resource}`, {
     method,
     headers: {

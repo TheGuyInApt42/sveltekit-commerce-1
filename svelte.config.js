@@ -9,7 +9,8 @@ const config = {
       $components: 'src/components',
       $utils: 'src/utils',
       $lib: 'src/lib',
-      $store: 'src/store.js'
+      $store: 'src/store.js',
+      $api: 'src/routes/api.js'
     }
   },
   preprocess: [

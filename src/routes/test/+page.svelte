@@ -4,6 +4,7 @@
   import T from '$lib/components/test/T.svelte';
   import Gem from '$lib/components/test/Gem.svelte';
   import Embla2 from '$lib/components/slider/Embla2.svelte';
+  import Product from '$lib/components/test/Product.svelte';
 
   const events = [
     {
@@ -66,20 +67,23 @@
   };
 </script>
 
+<!--
 <Embla2 />
 
-<TwoCol {events} {newReleases} />
+ <TwoCol {events} {newReleases} /> -->
+
+<Product />
 
 <!-- Store Info Section -->
-<div class="section-title">
+
+<!-- <div class="section-title">
   <h2>{storeInfo.title}</h2>
   <div class="title-sep" />
 </div>
 
 <img src={storeInfo.image} alt={storeInfo.subtitle} class="shadow-image" />
 <h2>{storeInfo.subtitle}</h2>
-<p>{storeInfo.description}</p>
-
+<p>{storeInfo.description}</p> -->
 <style>
   .slide-content {
     padding: 2rem;
