@@ -5,6 +5,7 @@
 
   /** @type {import('./$types').PageData} */
   export let data;
+  console.log('data: ', data);
   // Replace with your actual data
   let mockData = {
     product: {

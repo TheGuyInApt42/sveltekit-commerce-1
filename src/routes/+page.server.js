@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
 export async function load() {
   try {
     const collection = await getCollection('new-releases', 10, 'TITLE');
-    console.log('Collection data:', collection); // Add this line for debugging
+    //console.log('Collection data:', collection); // Add this line for debugging
 
     if (!collection) {
       throw error(404, 'Collection not found');

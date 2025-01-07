@@ -119,7 +119,7 @@
   <h1 class="text-center">Play N Trade Camp Hill</h1>
   <!-- <NewsletterSignup /> -->
 
-  <!-- <div class="flex w-full justify-center px-4 sm:px-6 md:px-8">
+  <div class="flex w-full justify-center px-4 sm:px-6 md:px-8">
     <div
       class="divider divider-neutral w-full max-w-[280px] sm:max-w-[540px] md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1100px]"
     >
@@ -127,7 +127,7 @@
     </div>
   </div>
 
-  <SingleCol {games} /> -->
+  <SingleCol {games} />
 
   <!--  <div class="site-content flex flex-col md:flex-row">
     <Events />
