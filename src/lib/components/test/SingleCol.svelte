@@ -1,6 +1,6 @@
 <script>
   export let games = [];
-  console.log('games: ', games);
+  //console.log('games: ', games);
 
   // Sample data - in real usage this would likely be passed as props
   /* const games = [
