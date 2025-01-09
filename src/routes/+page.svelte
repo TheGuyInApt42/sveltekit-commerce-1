@@ -116,8 +116,9 @@
     <Embla2 />
   </section>
 
+  <h1>STAGING TEST</h1>
   <h1 class="text-center">Play N Trade Camp Hill</h1>
-  <NewsletterSignup />
+  <!-- <NewsletterSignup /> -->
 
   <div class="flex w-full justify-center px-4 sm:px-6 md:px-8">
     <div
