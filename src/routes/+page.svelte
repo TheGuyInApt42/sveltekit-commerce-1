@@ -116,7 +116,7 @@
     <Embla2 />
   </section>
 
-  <h1>STAGING TEST</h1>
+  <h1>STAGING TEST2</h1>
   <h1 class="text-center">Play N Trade Camp Hill</h1>
   <!-- <NewsletterSignup /> -->
 
