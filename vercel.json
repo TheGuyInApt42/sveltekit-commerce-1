@@ -1,18 +1,9 @@
 {
   "git": {
-    "branches": [
-      "main",
-      "staging"
-    ]
+    "branches": ["main", "staging"]
   },
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/node",
-      "config": {
-        "buildCommand": "npm run build",
-        "outputDirectory": "build"
-      }
-    }
-  ]
+  "framework": "sveltekit",
+  "buildCommand": "npm run build:custom",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install"
 }
