@@ -34,7 +34,7 @@ function sendEmail(email, name, phone, message, subject) {
 		Message: ${message}
 					`;
   const msg = {
-    to: 'tremaineg@pntmail.com', // Change to your recipient
+    to: 'blackgandalf83@gmail.com', // Change to your recipient
     from: 'jarrod@gorhamwebconsulting.com', // Change to your verified sender
     subject: subject,
     text: template
