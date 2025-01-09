@@ -1,0 +1,18 @@
+{
+  "git": {
+    "branches": [
+      "main",
+      "staging"
+    ]
+  },
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node",
+      "config": {
+        "buildCommand": "npm run build",
+        "outputDirectory": "build"
+      }
+    }
+  ]
+}
