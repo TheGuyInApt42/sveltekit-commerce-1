@@ -3,6 +3,14 @@ import { api } from '$api';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {
+  console.log('Server load started with params:', params);
+  console.log('Environment check:', {
+    hasApiKey: !!IGDB_API_KEY,
+    hasClientId: !!IGDB_CLIENT_ID,
+    apiKeyLength: IGDB_API_KEY?.length,
+    clientIdLength: IGDB_CLIENT_ID?.length
+  });
+
   try {
     // Validate params
     if (!params?.handle) {

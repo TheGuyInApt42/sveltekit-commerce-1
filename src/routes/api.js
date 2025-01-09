@@ -6,20 +6,41 @@ import { IGDB_CLIENT_ID } from '$env/static/private';
 const base = 'https://api.igdb.com/v4';
 
 export async function api(method, resource, data) {
-  let body = data && JSON.stringify(data);
-  //console.log(body);
+  try {
+    console.log('API Call Details:', {
+      method,
+      resource,
+      hasData: !!data,
+      hasApiKey: !!IGDB_API_KEY,
+      hasClientId: !!IGDB_CLIENT_ID
+    });
 
-  //console.log(IGDB_API_KEY, IGDB_CLIENT_ID);
+    const response = await fetch(`${base}/${resource}`, {
+      method,
+      headers: {
+        Accept: 'application/json',
+        'Client-ID': `${IGDB_CLIENT_ID}`,
+        Authorization: `Bearer ${IGDB_API_KEY}`
+      },
+      body: data
+    });
 
-  return fetch(`${base}/${resource}`, {
-    method,
-    headers: {
-      Accept: 'application/json',
-      'Client-ID': `${IGDB_CLIENT_ID}`,
-      Authorization: `Bearer ${IGDB_API_KEY}`
-    },
-    body: data
-  });
+    console.log('API Response Status:', response.status);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('API Error Response:', errorText);
+      throw new Error(`API call failed: ${errorText}`);
+    }
+
+    return response;
+  } catch (error) {
+    console.error('API Call Error:', {
+      message: error.message,
+      stack: error.stack
+    });
+    throw error;
+  }
 }
 
 export async function shopifyFetch({ query, variables }) {
