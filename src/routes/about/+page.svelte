@@ -19,11 +19,7 @@
 <Banner bannerImg="http://camphillplayntrade.com/wp-content/uploads/2015/01/sliderptn.jpg" />
 
 <div class="avada-row">
-  <img
-    src="http://camphillplayntrade.com/wp-content/uploads/2014/12/FB_jake.png"
-    alt=""
-    srcset=""
-  />
+  <img src="/images/PTN.png" alt="" srcset="" />
 </div>
 
 <div class="content prose-xl flex flex-col items-center justify-center">

@@ -3,11 +3,15 @@
   import SearchBar from '$lib/components/searchbar/SearchBar2.svelte';
   import { onMount } from 'svelte';
 
-  let isMenuOpen = false; // State to toggle the menu
+  let isMenuOpen = false;
   let searchOpen = false;
 
   const toggleMenu = () => {
     isMenuOpen = !isMenuOpen;
+  };
+
+  const closeMenu = () => {
+    isMenuOpen = false;
   };
 
   function toggleSearch() {
@@ -41,10 +45,7 @@
     <!-- Logo -->
     <div class="logo">
       <a href="/">
-        <img
-          src="http://camphillplayntrade.com/wp-content/uploads/2015/01/ptnlogo.png"
-          alt="Play N Trade Logo"
-        />
+        <img src="/images/logos/ptnlogo.png" alt="Play N Trade Logo" />
       </a>
     </div>
 
@@ -56,10 +57,9 @@
     <!-- Navigation -->
     <nav class={`navigation ${isMenuOpen ? 'open' : ''}`}>
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-
-        <li><a href="/contact">Contact</a></li>
+        <li><a href="/" on:click={closeMenu}>Home</a></li>
+        <li><a href="/about" on:click={closeMenu}>About</a></li>
+        <li><a href="/contact" on:click={closeMenu}>Contact</a></li>
         <!-- Search Icon -->
         <!-- <li class="main-nav-search last-menu-item flex justify-center">
           <button
