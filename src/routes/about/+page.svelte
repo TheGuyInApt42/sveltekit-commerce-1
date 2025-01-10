@@ -16,7 +16,7 @@
 <HeadTags {metaData} />
 <!-- End: Header Tag -->
 
-<Banner bannerImg="http://camphillplayntrade.com/wp-content/uploads/2015/01/sliderptn.jpg" />
+<!-- <Banner bannerImg="http://camphillplayntrade.com/wp-content/uploads/2015/01/sliderptn.jpg" /> -->
 
 <div class="avada-row">
   <img src="/images/PTN.png" alt="" srcset="" />

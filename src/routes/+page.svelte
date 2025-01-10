@@ -86,45 +86,48 @@
   </div> -->
 
   <section
-    class="prose prose-black flex flex-col gap-4 pt-16 lg:prose-xl prose-p:text-black prose-strong:text-black prose-ol:text-xl
-	prose-ol:text-black prose-ul:text-xl prose-ul:text-black"
+    class="prose prose-black mx-auto flex max-w-full flex-col gap-4 px-4 pt-16 lg:prose-xl prose-p:text-black prose-strong:text-black prose-ol:text-xl
+	prose-ol:text-black prose-ul:text-xl prose-ul:text-black sm:px-6 md:max-w-3xl md:px-8"
   >
-    <div class="not-prose my-4 flex items-center justify-center gap-4 py-8">
-      <span>
-        <img src="/images/controller.png" alt="" />
+    <div class="not-prose my-4 flex flex-col items-center justify-center gap-4 py-8 sm:flex-row">
+      <span class="hidden sm:block">
+        <img src="/images/controller.png" alt="" class="h-8 w-8" />
       </span>
-      <h2 class="text-bold text-3xl text-black ">Welcome to Our Retro Gaming Paradise!</h2>
-      <span>
-        <img src="/images/controller.png" alt="" />
+      <h2 class="text-bold text-center text-2xl text-black sm:text-3xl">
+        Welcome to Our Retro Gaming Paradise!
+      </h2>
+      <span class="hidden sm:block">
+        <img src="/images/controller.png" alt="" class="h-8 w-8" />
       </span>
     </div>
 
-    <p>
+    <p class="text-base sm:text-lg">
       At <strong>Camp Hill Play N Trade</strong>, we're not just a store; we're a
       <strong>time machine</strong>
       that transports you back to the golden era of gaming. Whether you're a seasoned gamer or a curious
       newbie, we've got something special for you:
     </p>
-    <ol class="not-prose text-black">
-      <li>
+
+    <ol class="not-prose space-y-4 pl-4 text-base text-black sm:text-lg">
+      <li class="mb-4">
         <strong>Classic Games</strong>: Dive into nostalgia with our extensive collection of vintage
         video games. From pixelated adventures on the Atari to epic quests on the NES, we've curated
         the best titles from the '80s and '90s. Rediscover the magic of games that stood the test of
         time!
       </li>
-      <li>
+      <li class="mb-4">
         <strong>New Releases</strong>: Stay ahead of the gaming curve! We stock the latest releases
         for all major consoles. Whether you're a PlayStation devotee, an Xbox enthusiast, or a
         Nintendo loyalist, we've got your gaming fix covered. Pre-order, grab your controller, and
         embark on epic quests in stunning high-definition.
       </li>
-      <li>
+      <li class="mb-4">
         <strong>Old Accessories, New Thrills</strong>: Need a trusty controller for your retro
         console? Looking for that elusive memory card? Our shelves are brimming with vintage
         accessories that'll level up your gaming experience. Plus, we've got the latest gaming
         peripherals to enhance your gameplay—because classics deserve modern comfort too!
       </li>
-      <li>
+      <li class="mb-4">
         <strong>Systems Galore</strong>: Ready to relive the past or embrace the future? Choose from
         our refurbished old-school systems or the latest gaming powerhouses. Whether you crave the
         simplicity of the Sega Genesis or crave the cutting-edge graphics of the PlayStation 5,
@@ -132,37 +135,39 @@
       </li>
     </ol>
 
-    <div class="not-prose my-4 flex items-center justify-center py-8">
-      <span>
-        <img src="/images/flames.png" alt="" />
+    <div class="not-prose my-4 flex flex-col items-center justify-center gap-4 py-8 sm:flex-row">
+      <span class="hidden sm:block">
+        <img src="/images/flames.png" alt="" class="h-8 w-8" />
       </span>
-      <h2 class="text-bold text-3xl text-black ">Why Choose Camp Hill Play N Trade?</h2>
-      <span>
-        <img src="/images/flames.png" alt="" />
+      <h2 class="text-bold text-center text-2xl text-black sm:text-3xl">
+        Why Choose Camp Hill Play N Trade?
+      </h2>
+      <span class="hidden sm:block">
+        <img src="/images/flames.png" alt="" class="h-8 w-8" />
       </span>
     </div>
 
-    <ol class="not-prose text-black">
-      <li>
+    <ol class="not-prose space-y-4 pl-4 text-base text-black sm:text-lg">
+      <li class="mb-4">
         <strong>Quality Assurance</strong>: All our games and systems undergo rigorous testing. No
         glitches, no surprises—just pure gaming joy.
       </li>
-      <li>
+      <li class="mb-4">
         <strong>Friendly Experts</strong>: Our team lives and breathes gaming. Ask us anything—from
         cheat codes to console hacks, we've got the answers.
       </li>
-      <li>
+      <li class="mb-4">
         <strong>Collector's Paradise</strong>: Looking for rare gems? We've got your back.
         WATA-graded games? Check. Limited editions? Double-check.
       </li>
     </ol>
 
-    <p>
+    <p class="text-base sm:text-lg">
       So, whether you're chasing high scores, reliving childhood memories, or exploring new realms,
       step into <strong>Camp Hill Play N Trade</strong>. Because in our world, pixels are forever,
       and the adventure never ends.
     </p>
-    <p>
+    <p class="text-base sm:text-lg">
       Swing by our cozy store in Mechanicsburg. Let's press start and create gaming legends
       together! 🕹️
     </p>
