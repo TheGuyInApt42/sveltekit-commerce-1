@@ -11,9 +11,9 @@
   const selected = writable(0);
 
   const images = [
-    'http://camphillplayntrade.com/wp-content/uploads/2016/10/Battlefield-1-Main-Banner.jpg',
-    'http://camphillplayntrade.com/wp-content/uploads/2016/10/gallery_1911_1454361543_poster.jpg',
-    'http://camphillplayntrade.com/wp-content/uploads/2016/10/watch-dogs-2-banner-rivela-data-uscita-v2-263543-1280x720.jpg'
+    '/images/banner/battlefield.jpg',
+    '/images/banner/final-fantasy.jpg',
+    '/images/banner/watch-dogs-2.jpg'
   ];
 
   // Initialize Embla with AutoPlay and AutoScroll
