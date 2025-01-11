@@ -1,58 +1,55 @@
-import sgMail from '@sendgrid/mail';
 import { json } from '@sveltejs/kit';
-import { SENDGRID_KEY } from '$env/static/private';
+import { RESEND_API_KEY } from '$env/static/private';
 
 /** @type {import('./$types').Actions} */
 export const actions = {
   mail: async ({ request }) => {
-    const data = await request.formData();
-    const email = data.get('email');
-    const name = data.get('name');
-    const phone = data.get('phone');
-    const subject = data.get('subject');
-    const message = data.get('message');
+    try {
+      const data = await request.formData();
+      const email = data.get('email');
+      const name = data.get('name');
+      const phone = data.get('phone');
+      const subject = data.get('subject');
+      const message = data.get('message');
 
-    let sendMsg = sendEmail(email, name, phone, message, subject);
+      await sendEmail(email, name, phone, message, subject);
 
-    return {
-      success: true
-    };
-
-    //return {success: true};
+      return json({ message: 'Email sent successfully!' });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      return json({
+        message: 'Error sending email. Please try again later.',
+        status: 500
+      });
+    }
   }
 };
 
-//const sgMail = require('@sendgrid/mail');
-//sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-function sendEmail(email, name, phone, message, subject) {
-  sgMail.setApiKey(SENDGRID_KEY);
-  const template = `
-		Email: ${email}
-		Name: ${name}
-		Phone: ${phone}
-		Message: ${message}
-					`;
-  const msg = {
-    to: 'blackgandalf83@gmail.com', // Change to your recipient
-    from: 'jarrod@gorhamwebconsulting.com', // Change to your verified sender
-    subject: subject,
-    text: template
-    //html: '<strong>and easy to do anywhere, even with Node.js</strong>'
-  };
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log('Email sent');
-      return json({
-        message: 'success'
-      });
+async function sendEmail(email, name, phone, message, subject) {
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${RESEND_API_KEY}`
+    },
+    body: JSON.stringify({
+      from: 'jarrod@gorhamwebconsulting.com',
+      to: 'blackgandalf83@gmail.com',
+      subject: subject,
+      text: `
+        Email: ${email}
+        Name: ${name}
+        Phone: ${phone}
+        Message: ${message}
+      `
+      // You can also add an HTML version if needed:
+      // html: `<h1>Hello!</h1><p>This is an HTML email.</p>`
     })
-    .catch((error) => {
-      console.error(error);
-      return json({
-        message: 'failed',
-        status: 404
-      });
-    });
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error('Resend error:', errorData);
+    throw new Error('Failed to send email');
+  }
 }
