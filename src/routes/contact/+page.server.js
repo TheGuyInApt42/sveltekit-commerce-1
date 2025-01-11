@@ -1,7 +1,7 @@
-import { json } from '@sveltejs/kit';
+/* import { json } from '@sveltejs/kit';
 import { RESEND_API_KEY } from '$env/static/private';
 
-/** @type {import('./$types').Actions} */
+
 export const actions = {
   mail: async ({ request }) => {
     try {
@@ -53,3 +53,4 @@ async function sendEmail(email, name, phone, message, subject) {
     throw new Error('Failed to send email');
   }
 }
+ */
