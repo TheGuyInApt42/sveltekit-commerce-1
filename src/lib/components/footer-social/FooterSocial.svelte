@@ -50,7 +50,7 @@
   </div>
 
   <div class="flex flex-col pb-2 md:pb-0">
-    <p>Play N Trade @2024</p>
+    <p>Play N Trade @2025</p>
     <p>
       Made By
       <ExternalLink
