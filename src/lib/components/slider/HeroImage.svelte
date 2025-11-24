@@ -7,16 +7,17 @@
   export let headerOffset = 90; // Header height in pixels (default 90px)
 
   $: computedHeight = fullHeight ? `calc(100vh - ${headerOffset}px)` : height;
+  $: heroClass = fullHeight ? 'hero-image full-height' : 'hero-image';
 </script>
 
 {#if href}
   <a {href} class="hero-image-link">
-    <div class="hero-image" style="height: {computedHeight}">
+    <div class={heroClass} style="height: {computedHeight}">
       <img {src} {alt} />
     </div>
   </a>
 {:else}
-  <div class="hero-image" style="height: {computedHeight}">
+  <div class={heroClass} style="height: {computedHeight}">
     <img {src} {alt} />
   </div>
 {/if}
@@ -46,5 +47,26 @@
 
   .hero-image-link:hover {
     opacity: 0.95;
+  }
+
+  /* Mobile responsive styles - override height for full-height images */
+  @media (max-width: 768px) {
+    .hero-image.full-height {
+      height: 60vh !important;
+      min-height: 400px;
+    }
+
+    .hero-image.full-height img {
+      object-fit: contain;
+      object-position: center;
+    }
+  }
+
+  /* Small mobile devices */
+  @media (max-width: 480px) {
+    .hero-image.full-height {
+      height: 50vh !important;
+      min-height: 300px;
+    }
   }
 </style>
