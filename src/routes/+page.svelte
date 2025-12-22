@@ -17,7 +17,6 @@
   import NewReleases3 from '../lib/components/new-releases/NewReleases3.svelte';
   import Copy from '$lib/components/test/Copy.svelte';
   import SingleCol from '../lib/components/test/SingleCol.svelte';
-  import HeroImage from '$lib/components/slider/HeroImage.svelte';
 
   // Start: Local component properties
   const metaData = {
@@ -64,12 +63,7 @@
 <!-- End: Header Tag -->
 
 <div class="flex flex-col items-center justify-center gap-4">
-  <HeroImage
-    src="https://res.cloudinary.com/blackgandalf/image/upload/v1763940900/PlayNTrade/-2962841903998648511_mwhk9g.webp"
-    alt="Featured image"
-    href="/"
-    fullHeight={true}
-  />
+  <Embla2 fullHeight={true} />
 </div>
 
 <h1 class="text-center">Play N Trade Camp Hill</h1>

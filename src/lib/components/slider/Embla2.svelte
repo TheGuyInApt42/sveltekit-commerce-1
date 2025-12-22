@@ -2,28 +2,36 @@
   import { onMount } from 'svelte';
   import emblaCarousel from 'embla-carousel';
   import AutoPlay from 'embla-carousel-autoplay';
-  import AutoScroll from 'embla-carousel-auto-scroll';
   import { writable } from 'svelte/store';
   import { ArrowBigLeft, ArrowBigRight } from 'svelte-lucide';
+
+  export let fullHeight = false; // If true, uses calc(100vh - 90px) to account for header
+  export let headerOffset = 90; // Header height in pixels (default 90px)
+  export let images = [
+    'https://images.igdb.com/igdb/image/upload/t_720p/ar3p7p.webp',
+    'https://images.igdb.com/igdb/image/upload/t_720p/ar3lza.webp',
+    'https://images.igdb.com/igdb/image/upload/t_720p/ar4u71.webp',
+    'https://images.igdb.com/igdb/image/upload/t_720p/ar47zf.webp', // TODO: Replace with current game image 4
+    'https://images.igdb.com/igdb/image/upload/t_720p/ar3vs2.webp' // TODO: Replace with current game image 5
+  ];
+  export let autoPlayDelay = 5000; // Delay between slides in milliseconds
 
   let emblaNode; // DOM node for Embla
   let emblaApi = null; // Embla instance
   const selected = writable(0);
 
-  const images = [
-    '/images/banner/battlefield.jpg',
-    '/images/banner/final-fantasy.jpg',
-    '/images/banner/watch-dogs-2.jpg'
-  ];
+  $: computedHeight = fullHeight ? `calc(100vh - ${headerOffset}px)` : '500px';
+  $: carouselClass = fullHeight ? 'carousel full-height' : 'carousel';
 
-  // Initialize Embla with AutoPlay and AutoScroll
+  // Initialize Embla with AutoPlay
   onMount(() => {
     emblaApi = emblaCarousel(
       emblaNode,
       {
-        loop: true // Infinite looping
+        loop: true, // Infinite looping
+        duration: 20 // Smooth transition duration
       },
-      [AutoPlay({ delay: 3000 }), AutoScroll({ speed: 2 })]
+      [AutoPlay({ delay: autoPlayDelay, stopOnInteraction: false })]
     );
 
     // Update selected slide on change
@@ -39,16 +47,11 @@
 </script>
 
 <!-- Embla Carousel -->
-<div class="carousel" bind:this={emblaNode}>
+<div class={carouselClass} style="height: {computedHeight}" bind:this={emblaNode}>
   <div class="carousel__container">
     {#each images as src, index}
       <div class="carousel__slide">
-        <img {src} alt="Slide {index + 1}" />
-        <p
-          class="absolute right-[8px] top-[8px] grid h-12 w-12 place-items-center rounded-full bg-black/50 text-white"
-        >
-          {index + 1}
-        </p>
+        <img {src} alt="Game banner {index + 1}" />
       </div>
     {/each}
   </div>
@@ -77,18 +80,21 @@
   }
   .carousel__container {
     display: flex;
-    gap: 10px;
+    height: 100%;
   }
   .carousel__slide {
     flex: 0 0 100%;
     position: relative;
     overflow: hidden;
+    height: 100%;
   }
   .carousel__slide img {
     width: 100%;
-    height: 500px;
+    height: 100%;
     object-fit: cover;
+    object-position: center;
     border-radius: 0.25rem;
+    display: block;
   }
   .carousel__nav {
     position: absolute;
@@ -125,5 +131,40 @@
   }
   .pagination button.active {
     background: linear-gradient(45deg, #ff9500, #ffcc00);
+  }
+
+  /* Mobile responsive styles - override height for full-height carousel */
+  @media (max-width: 768px) {
+    .carousel.full-height {
+      height: 60vh !important;
+      min-height: 400px;
+    }
+    .carousel__slide img {
+      object-fit: contain;
+      object-position: center;
+      background-color: #000;
+    }
+  }
+
+  /* Small mobile devices */
+  @media (max-width: 480px) {
+    .carousel.full-height {
+      height: 50vh !important;
+      min-height: 300px;
+    }
+    .carousel__slide img {
+      object-fit: contain;
+      object-position: center;
+      background-color: #000;
+    }
+    .carousel__nav {
+      padding: 6px;
+    }
+    .carousel__nav.left {
+      left: 0.5rem;
+    }
+    .carousel__nav.right {
+      right: 0.5rem;
+    }
   }
 </style>
