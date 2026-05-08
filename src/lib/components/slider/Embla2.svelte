@@ -14,6 +14,7 @@
     'https://images.igdb.com/igdb/image/upload/t_720p/ar47zf.webp', // TODO: Replace with current game image 4
     'https://images.igdb.com/igdb/image/upload/t_720p/ar3vs2.webp' // TODO: Replace with current game image 5
   ];
+
   export let autoPlayDelay = 5000; // Delay between slides in milliseconds
 
   let emblaNode; // DOM node for Embla
@@ -49,9 +50,12 @@
 <!-- Embla Carousel -->
 <div class={carouselClass} style="height: {computedHeight}" bind:this={emblaNode}>
   <div class="carousel__container">
-    {#each images as src, index}
+    {#each images as image, index}
       <div class="carousel__slide">
-        <img {src} alt="Game banner {index + 1}" />
+        <img src={image.src} alt={image.name} />
+        <div class="carousel__overlay">
+          <h2 class="game-title">{image.name}</h2>
+        </div>
       </div>
     {/each}
   </div>
@@ -76,7 +80,9 @@
   .carousel {
     overflow: hidden;
     position: relative;
-    border-radius: 0.25rem;
+    width: 100%; /* Ensure it spans the full width */
+    /* Remove border-radius if you want it to look like a true hero banner */
+    border-radius: 0;
   }
   .carousel__container {
     display: flex;
@@ -85,15 +91,43 @@
   .carousel__slide {
     flex: 0 0 100%;
     position: relative;
-    overflow: hidden;
     height: 100%;
+  }
+
+  .carousel__overlay {
+    position: absolute;
+    inset: 0; /* Cover the whole slide */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Push text to the bottom */
+    padding: 2rem;
+    /* This gradient makes white text readable on ANY image */
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.2) 40%,
+      transparent 100%
+    );
+    pointer-events: none; /* Let clicks pass through to the slider */
+  }
+
+  .game-title {
+    color: white; /* Force white text */
+    font-size: 3rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1;
+    /* Optional: subtle glow effect common in gaming UI */
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
   }
   .carousel__slide img {
     width: 100%;
     height: 100%;
+    /* 'cover' is correct for Hero, but 'screenshots' will make it look right */
     object-fit: cover;
-    object-position: center;
-    border-radius: 0.25rem;
+    /* High-end games often put focal points at the top, so we shift the focus */
+    object-position: center 20%;
     display: block;
   }
   .carousel__nav {
@@ -136,13 +170,21 @@
   /* Mobile responsive styles - override height for full-height carousel */
   @media (max-width: 768px) {
     .carousel.full-height {
-      height: 60vh !important;
-      min-height: 400px;
+      height: 65vh !important; /* Slightly shorter for mobile */
     }
     .carousel__slide img {
-      object-fit: contain;
+      object-fit: cover; /* Keep it full screen */
       object-position: center;
-      background-color: #000;
+    }
+
+    .game-title {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+    .carousel__overlay {
+      padding: 1.5rem;
+      justify-content: center; /* Center text on mobile for better visibility */
+      align-items: center;
     }
   }
 

@@ -34,6 +34,7 @@
   };
 
   export let data;
+  const sliderImages = data.sliderImages;
 
   //TODO: check handling end of month/new month
   $: recent = data.recent;
@@ -63,7 +64,7 @@
 <!-- End: Header Tag -->
 
 <div class="flex flex-col items-center justify-center gap-4">
-  <Embla2 fullHeight={true} />
+  <Embla2 fullHeight={true} images={sliderImages} />
 </div>
 
 <h1 class="text-center">Play N Trade Camp Hill</h1>
