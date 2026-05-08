@@ -26,6 +26,10 @@
 
       if (response.ok) {
         formMessageSuccess = 'Your message was sent, thank you!';
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'contact_form_submitted'
+        });
         form.reset();
       } else {
         const data = await response.json();
