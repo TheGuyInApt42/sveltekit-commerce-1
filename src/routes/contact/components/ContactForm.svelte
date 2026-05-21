@@ -26,10 +26,21 @@
 
       if (response.ok) {
         formMessageSuccess = 'Your message was sent, thank you!';
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: 'contact_form_submitted'
-        });
+
+        // 1. Send the data payload directly to GA4
+        if (window.gtag) {
+          window.gtag('event', 'contact_form_submitted', {
+            form_id: 'contact_form',
+            success: true,
+
+            name: data.get('name'),
+            email: data.get('email'),
+            phone: data.get('phone'),
+            subject: data.get('subject'),
+            message: data.get('message')
+          });
+        }
+
         form.reset();
       } else {
         const data = await response.json();

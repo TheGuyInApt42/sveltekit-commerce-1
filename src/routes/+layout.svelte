@@ -19,7 +19,19 @@
   let cartCreatedAt;
   let cartItems = [];
 
-  $: currentPath = $page.url.pathname;
+  $: currentPath = $page?.url?.pathname;
+
+  // Track every time the client-side router changes paths
+  $: if (typeof window !== 'undefined' && window.gtag && currentPath) {
+    // Small timeout ensures the DOM has updated document.title
+    setTimeout(() => {
+      window.gtag('event', 'page_view', {
+        page_path: currentPath,
+        page_title: document.title,
+        page_location: window.location.href
+      });
+    }, 100);
+  }
 
   const today = new Date().getDay();
 
@@ -103,18 +115,6 @@
   }
 
   onMount(async () => {
-    // 1. Programmatically initialize GTM container if it doesn't exist
-    if (!window.dataLayer) {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-
-      const f = document.getElementsByTagName('script')[0];
-      const j = document.createElement('script');
-      j.async = true;
-      j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TWC5D6CC';
-      f.parentNode.insertBefore(j, f);
-    }
-
     let todayHours = document.querySelector(`[data-id='${today}']`);
     let highlightedDay = 'text-xl font-bold playntrade-turquoise'.split(' ');
     todayHours.classList.add(...highlightedDay);
@@ -154,15 +154,6 @@
       });
     }
   });
-
-  // 2. Push a custom event to the dataLayer every time the path changes
-  $: if (typeof window !== 'undefined' && window.dataLayer && currentPath) {
-    window.dataLayer.push({
-      event: 'virtual_pageview',
-      page_path: currentPath,
-      page_title: document.title
-    });
-  }
 </script>
 
 <div class="flex flex-col">
