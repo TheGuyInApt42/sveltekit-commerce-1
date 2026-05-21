@@ -19,6 +19,8 @@
   let cartCreatedAt;
   let cartItems = [];
 
+  $: currentPath = $page.url.pathname;
+
   const today = new Date().getDay();
 
   let address = `<p class="font-display playntrade-dark-blue">125 Gateway Dr</p>
@@ -101,46 +103,18 @@
   }
 
   onMount(async () => {
-    /* !(function () {
-      if (!window.klaviyo) {
-        window._klOnsite = window._klOnsite || [];
-        try {
-          window.klaviyo = new Proxy(
-            {},
-            {
-              get: function (n, i) {
-                return 'push' === i
-                  ? function () {
-                      var n;
-                      (n = window._klOnsite).push.apply(n, arguments);
-                    }
-                  : function () {
-                      for (var n = arguments.length, o = new Array(n), w = 0; w < n; w++)
-                        o[w] = arguments[w];
-                      var t = 'function' == typeof o[o.length - 1] ? o.pop() : void 0,
-                        e = new Promise(function (n) {
-                          window._klOnsite.push(
-                            [i].concat(o, [
-                              function (i) {
-                                t && t(i), n(i);
-                              }
-                            ])
-                          );
-                        });
-                      return e;
-                    };
-              }
-            }
-          );
-        } catch (n) {
-          (window.klaviyo = window.klaviyo || []),
-            (window.klaviyo.push = function () {
-              var n;
-              (n = window._klOnsite).push.apply(n, arguments);
-            });
-        }
-      }
-    })(); */
+    // 1. Programmatically initialize GTM container if it doesn't exist
+    if (!window.dataLayer) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+
+      const f = document.getElementsByTagName('script')[0];
+      const j = document.createElement('script');
+      j.async = true;
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-TWC5D6CC';
+      f.parentNode.insertBefore(j, f);
+    }
+
     let todayHours = document.querySelector(`[data-id='${today}']`);
     let highlightedDay = 'text-xl font-bold playntrade-turquoise'.split(' ');
     todayHours.classList.add(...highlightedDay);
@@ -180,15 +154,16 @@
       });
     }
   });
-</script>
 
-<!-- <svelte:head>
-  <script
-    async
-    type="text/javascript"
-    src="//static.klaviyo.com/onsite/js/klaviyo.js?company_id=VdFLP5"
-  ></script>;
-</svelte:head> -->
+  // 2. Push a custom event to the dataLayer every time the path changes
+  $: if (typeof window !== 'undefined' && window.dataLayer && currentPath) {
+    window.dataLayer.push({
+      event: 'virtual_pageview',
+      page_path: currentPath,
+      page_title: document.title
+    });
+  }
+</script>
 
 <div class="flex flex-col">
   <div id="header-wrapper">
