@@ -98,7 +98,7 @@
 					{#if selected === index}
 						<div
 							class="absolute top-0 left-0 w-full h-full bg-black opacity-60"
-							transition:fade={{ duration: 250 }}
+							transition:fade|global={{ duration: 250 }}
 						/>
 					{/if}
 

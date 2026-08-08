@@ -110,7 +110,7 @@
             {#if selected === i}
               <div
                 class="absolute left-0 top-0 h-full w-full bg-black opacity-60"
-                transition:fade={{ duration: 250 }}
+                transition:fade|global={{ duration: 250 }}
               />
             {/if}
 
