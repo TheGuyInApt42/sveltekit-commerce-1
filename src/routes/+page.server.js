@@ -17,7 +17,8 @@ export async function load({ fetch, setHeaders }) {
       `https://id.twitch.tv/oauth2/token?client_id=${IGDB_CLIENT_ID}&client_secret=${IGDB_CLIENT_SECRET}&grant_type=client_credentials`,
       { method: 'POST' }
     );
-    const { access_token } = await authRes.json();
+    const authData = await authRes.json();
+    const { access_token } = authData;
 
     const threeMonthsAgo = Math.floor(Date.now() / 1000 - 90 * 24 * 60 * 60);
     const query = `
