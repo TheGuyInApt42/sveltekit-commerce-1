@@ -14,8 +14,8 @@ export async function load({ url }) {
       };
     }
 
-    throw error(404);
+    error(404);
   } else {
-    throw error(res.status);
+    error(res.status);
   }
 }

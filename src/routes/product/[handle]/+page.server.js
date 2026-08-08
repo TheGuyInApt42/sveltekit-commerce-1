@@ -6,17 +6,17 @@ export async function load({ params }) {
   try {
     // Validate params
     if (!params?.handle) {
-      throw error(400, 'Product handle is required');
+      error(400, 'Product handle is required');
     }
 
     const data = await getProduct(params.handle);
     if (!data) {
-      throw error(404, 'Product data not found');
+      error(404, 'Product data not found');
     }
 
     const productResponse = await handleShopifyResponse(data);
     if (!productResponse?.body?.product) {
-      throw error(404, 'Invalid product response structure');
+      error(404, 'Invalid product response structure');
     }
 
     // Resolve the product data
@@ -25,7 +25,7 @@ export async function load({ params }) {
     // Get product title using getProductTitle function
     const title = await getProductTitle(product);
     if (!title) {
-      throw error(404, 'Failed to get product title');
+      error(404, 'Failed to get product title');
     }
 
     const trailers = await getTrailersForGame(title);
@@ -38,7 +38,7 @@ export async function load({ params }) {
   } catch (err) {
     console.error('Error loading product data:', err);
     // Preserve the original error status if it exists
-    throw error(err.status || 500, err.message || 'Failed to load product data');
+    error(err.status || 500, err.message || 'Failed to load product data');
   }
 }
 

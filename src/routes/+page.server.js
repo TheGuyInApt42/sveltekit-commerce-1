@@ -9,7 +9,7 @@ export async function load({ fetch, setHeaders }) {
     const collection = await getCollection('new-releases', 10, 'TITLE');
 
     if (!collection) {
-      throw error(404, 'Collection not found');
+      error(404, 'Collection not found');
     }
 
     // 2. Fetch IGDB Access Token
@@ -86,6 +86,6 @@ export async function load({ fetch, setHeaders }) {
   } catch (err) {
     console.error('Full error details:', err);
     if (err.status) throw err;
-    throw error(500, err.message || 'Failed to load data');
+    error(500, err.message || 'Failed to load data');
   }
 }
