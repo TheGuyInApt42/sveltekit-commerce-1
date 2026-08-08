@@ -39,7 +39,7 @@
     <div class="fusion-title title">
       <h2 class="title-heading-left">Events/Tournaments</h2>
       <div class="title-sep-container">
-        <div class="title-sep sep-single" />
+        <div class="title-sep sep-single"></div>
       </div>
     </div>
 
@@ -59,11 +59,11 @@
     <div
       class="fusion-separator fusion-full-width-sep sep-none"
       style="border-color:#e0dede; margin-top:20px;"
-    />
+></div>
     <div class="fusion-title title">
       <h2 class="title-heading-left">Come Check Us Out!</h2>
       <div class="title-sep-container">
-        <div class="title-sep sep-single" />
+        <div class="title-sep sep-single"></div>
       </div>
     </div>
 

@@ -1,13 +1,21 @@
 <script>
-	export let href = '';
+	import { run } from 'svelte/legacy';
 
-	export let ariaLabel = '';
-	export let cssClasses = '';
 
-	$: if (!cssClasses) {
-		cssClasses =
-			'text-gray-500 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-500 transition';
-	}
+	/** @type {{href?: string, ariaLabel?: string, cssClasses?: string, children?: import('svelte').Snippet}} */
+	let {
+		href = '',
+		ariaLabel = '',
+		cssClasses = $bindable(''),
+		children
+	} = $props();
+
+	run(() => {
+		if (!cssClasses) {
+			cssClasses =
+				'text-gray-500 hover:text-gray-600 dark:text-gray-300 dark:hover:text-gray-500 transition';
+		}
+	});
 </script>
 
 {#if href}
@@ -19,11 +27,11 @@
 			rel="noopener noreferrer"
 			aria-label="{ariaLabel}"
 		>
-			<slot />
+			{@render children?.()}
 		</a>
 	{:else}
 		<a href="{href}" class="{cssClasses}" target="_blank" rel="noopener noreferrer">
-			<slot />
+			{@render children?.()}
 		</a>
 	{/if}
 {/if}

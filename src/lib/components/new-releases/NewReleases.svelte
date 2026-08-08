@@ -1,9 +1,10 @@
 <script>
   import Card from '$lib/components/card/Card.svelte';
   import { onMount } from 'svelte';
-  export let releases = [];
+  /** @type {{releases?: any}} */
+  let { releases = [] } = $props();
   //console.log(releases);
-  let games = [];
+  let games = $state([]);
 
   onMount(async () => {
     games = await releases;

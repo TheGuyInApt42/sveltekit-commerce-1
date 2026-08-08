@@ -1,9 +1,12 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import embla from 'svelte-embla';
 	import { writable } from 'svelte/store';
 	import { fade } from 'svelte/transition';
 
-	export let photos = [];
+	/** @type {{photos?: any}} */
+	let { photos = [] } = $props();
 
 	
 	const gallery = writable();
@@ -13,7 +16,10 @@
 
 
 	
-	$: selected = $gallery?.selectedScrollSnap() ?? 0;
+	let selected;
+	run(() => {
+		selected = $gallery?.selectedScrollSnap() ?? 0;
+	});
 
 	
 
@@ -58,7 +64,7 @@
 		class="overflow-hidden"
 	
 		use:embla={{ store: gallery, loop: true, skipSnaps: false }}
-		on:e-select={onGallerySelect}
+		one-select={onGallerySelect}
 	>
 
 		
@@ -91,7 +97,7 @@
 				<button
 					class="group relative rounded-[.25rem] overflow-hidden"
 					disabled={selected === index}
-					on:click={onThumbnailSelect(index)}
+					onclick={onThumbnailSelect(index)}
 				>
 					<img class="w-full h-full object-contain" src={photo} alt="" />
 
@@ -99,7 +105,7 @@
 						<div
 							class="absolute top-0 left-0 w-full h-full bg-black opacity-60"
 							transition:fade|global={{ duration: 250 }}
-						/>
+						></div>
 					{/if}
 
 					<p

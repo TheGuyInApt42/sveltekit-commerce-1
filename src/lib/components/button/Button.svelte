@@ -1,13 +1,13 @@
 <script>
   import { goto } from '$app/navigation';
-  export let text = '';
-  export let route = '';
+  /** @type {{text?: string, route?: string}} */
+  let { text = '', route = '' } = $props();
 </script>
 
 <div class="flex justify-center">
-  <button class="button" on:click={goto(route)}>
+  <button class="button" onclick={goto(route)}>
     <div class="bg-container">
-      <div class="bg-circle" />
+      <div class="bg-circle"></div>
     </div>
     <div class="front">
       <span>{text}</span>

@@ -1,14 +1,14 @@
 <script>
   import ExternalLink from '../../components/external-link/ExternalLink.svelte';
-  export let address = '';
-  export let hours = '';
+  /** @type {{address?: string, hours?: string, children?: import('svelte').Snippet}} */
+  let { address = '', hours = '', children } = $props();
 </script>
 
 <div class="flex flex-col">
   <div class="flex flex-col gap-4 pt-6 md:flex-row md:gap-0 md:pt-0">
     <div id="hours" class="flex-1">
       <h3 class="pb-4 font-bold">Hours</h3>
-      <slot>{@html hours}</slot>
+      {#if children}{@render children()}{:else}{@html hours}{/if}
     </div>
 
     <div id="social">
@@ -19,14 +19,14 @@
           cssClasses={'mr-1'}
           ariaLabel={'Facebook link'}
         >
-          <span class="facebook-icon" />
+          <span class="facebook-icon"></span>
         </ExternalLink>
 
         <ExternalLink
           href={'https://www.instagram.com/explore/locations/81968605/camp-hill-play-n-trade/'}
           ariaLabel={'Instagram link'}
         >
-          <span class="instagram-icon" />
+          <span class="instagram-icon"></span>
         </ExternalLink>
 
         <!-- <a href="https://twitter.com/pntcamphill?lang=en" class="mr-1" target="_blank">
@@ -41,12 +41,12 @@
 
     <div id="address" class="flex-1">
       <h3 class="pb-4 font-bold">Visit Us</h3>
-      <slot>{@html address}</slot>
+      {#if children}{@render children()}{:else}{@html address}{/if}
     </div>
   </div>
 
   <div class="flex w-full flex-col">
-    <div class="divider" />
+    <div class="divider"></div>
   </div>
 
   <div class="flex flex-col pb-2 md:pb-0">

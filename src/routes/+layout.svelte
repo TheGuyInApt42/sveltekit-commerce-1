@@ -1,4 +1,6 @@
 <script>
+  import { run } from 'svelte/legacy';
+
   import { onMount } from 'svelte';
   import Header from '$lib/components/header/Header.svelte';
   import Header3 from '$lib/components/header/Header3.svelte';
@@ -12,26 +14,30 @@
   import Banner from '$lib/components/banner/Banner.svelte';
   import { page } from '$app/stores';
   import '../app.postcss';
+  /** @type {{children?: import('svelte').Snippet}} */
+  let { children } = $props();
 
   // Variables
   let cartId;
   let checkoutUrl;
   let cartCreatedAt;
-  let cartItems = [];
+  let cartItems = $state([]);
 
-  $: currentPath = $page?.url?.pathname;
+  let currentPath = $derived($page?.url?.pathname);
 
   // Track every time the client-side router changes paths
-  $: if (typeof window !== 'undefined' && window.gtag && currentPath) {
-    // Small timeout ensures the DOM has updated document.title
-    setTimeout(() => {
-      window.gtag('event', 'page_view', {
-        page_path: currentPath,
-        page_title: document.title,
-        page_location: window.location.href
-      });
-    }, 100);
-  }
+  run(() => {
+    if (typeof window !== 'undefined' && window.gtag && currentPath) {
+      // Small timeout ensures the DOM has updated document.title
+      setTimeout(() => {
+        window.gtag('event', 'page_view', {
+          page_path: currentPath,
+          page_title: document.title,
+          page_location: window.location.href
+        });
+      }, 100);
+    }
+  });
 
   const today = new Date().getDay();
 
@@ -67,8 +73,8 @@
     cartItems = res?.body?.data?.cart?.lines?.edges;
   }
 
-  let showCart = false;
-  let loading = false;
+  let showCart = $state(false);
+  let loading = $state(false);
 
   async function openCart() {
     console.log('parent open');
@@ -189,7 +195,7 @@
       />
     {/if}
 
-    <slot />
+    {@render children?.()}
   </main>
 
   <footer>

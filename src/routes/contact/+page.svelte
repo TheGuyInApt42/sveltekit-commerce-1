@@ -1,13 +1,18 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	// Components
 	import HeadTags from '$lib/components/head-tags/HeadTags.svelte';
 	
 	import ContactForm from './components/ContactForm.svelte';
-	export let form
+	/** @type {{form: any}} */
+	let { form } = $props();
 
   
 
-	$: console.log(form);
+	run(() => {
+		console.log(form);
+	});
 	// Start: Local component properties
 	const metaData = {
 		title: `PlayNTrade | Contact`,

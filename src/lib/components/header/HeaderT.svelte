@@ -54,7 +54,7 @@
           <a href="https://camphillplayntrade.com/contact-2/">Contact</a>
         </li>
         <li class="main-nav-search last-menu-item">
-          <a id="main-nav-search-link" class="search-link" />
+          <a id="main-nav-search-link" class="search-link"></a>
           <div id="main-nav-search-form" class="main-nav-search-form">
             <form
               role="search"
@@ -78,7 +78,7 @@
     <div class="mobile-nav-holder main-menu">
       <div class="mobile-selector">
         <span>Go to...</span>
-        <div class="selector-down" />
+        <div class="selector-down"></div>
       </div>
       <ul class="navigation menu" style="overflow:hidden" id="mobile-nav">
         <li id="mobile-menu-item-1351" class="mobile-nav-item" style="">

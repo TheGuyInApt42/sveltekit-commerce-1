@@ -1,6 +1,6 @@
 <script>
-  export let events = [];
-  export let newReleases = [];
+  /** @type {{events?: any, newReleases?: any}} */
+  let { events = [], newReleases = [] } = $props();
 </script>
 
 <div id="main" class="clearfix">
@@ -13,7 +13,7 @@
             <div class="fusion-title title">
               <h2 class="title-heading-left">Events/Tournaments</h2>
               <div class="title-sep-container">
-                <div class="title-sep sep-single" />
+                <div class="title-sep sep-single"></div>
               </div>
             </div>
 
@@ -23,11 +23,11 @@
               </span>
               <h2>{event.title}</h2>
               <p>{event.description}</p>
-              <div class="fusion-sep-clear" />
+              <div class="fusion-sep-clear"></div>
               <div
                 class="fusion-separator fusion-full-width-sep sep-none"
                 style="border-color:#e0dede;margin-top:20px;"
-              />
+></div>
             {/each}
           </div>
         </div>
@@ -38,14 +38,14 @@
             <div class="fusion-title title">
               <h2 class="title-heading-left">New Released Games</h2>
               <div class="title-sep-container">
-                <div class="title-sep sep-single" />
+                <div class="title-sep sep-single"></div>
               </div>
             </div>
             <ul class="fusion-checklist">
               {#each newReleases as release, i}
                 <li class="fusion-li-item size-small">
                   <span class="icon-wrapper circle-no">
-                    <i class="fusion-li-icon fa fa-check" style="color:#ffffff;" />
+                    <i class="fusion-li-icon fa fa-check" style="color:#ffffff;"></i>
                   </span>
                   <div class="fusion-li-item-content">
                     <h2>{i + 1}. {release.title}</h2>
@@ -62,7 +62,7 @@
             </ul>
           </div>
         </div>
-        <div class="fusion-clearfix" />
+        <div class="fusion-clearfix"></div>
       </div>
     </div>
   </div>

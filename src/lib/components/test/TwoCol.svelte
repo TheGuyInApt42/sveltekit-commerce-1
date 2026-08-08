@@ -1,31 +1,30 @@
 <script>
   // Props for customization
-  export let events = [
+
+
+  // Default styles that can be customized via props
+  /** @type {{events?: any, newReleases?: any, styles?: any}} */
+  let { events = [
     {
       title: '',
       date: '',
       description: '',
       image: ''
     }
-  ];
-
-  export let newReleases = [
+  ], newReleases = [
     {
       title: '',
       image: '',
       rank: 1
     }
-  ];
-
-  // Default styles that can be customized via props
-  export let styles = {
+  ], styles = {
     mainBackground: '#ffffff',
     textColor: '#747474',
     headerColor: '#333333',
     maxWidth: '1100px',
     fontFamily: "'PT Sans', Arial, Helvetica, sans-serif",
     titleFontFamily: "'Antic Slab', Arial, Helvetica, sans-serif"
-  };
+  } } = $props();
 </script>
 
 <div
@@ -41,7 +40,7 @@
         <div class="column">
           <div class="section-title">
             <h2 style:font-family={styles.titleFontFamily}>Events/Tournaments</h2>
-            <div class="title-sep" />
+            <div class="title-sep"></div>
           </div>
 
           {#each events as event}
@@ -49,7 +48,7 @@
               <img src={event.image} alt={event.title} class="shadow-image" />
               <h2 style:font-family={styles.titleFontFamily}>{event.title}</h2>
               <p>{event.description}</p>
-              <div class="separator" />
+              <div class="separator"></div>
             </div>
           {/each}
         </div>
@@ -58,7 +57,7 @@
         <div class="column">
           <div class="section-title">
             <h2 style:font-family={styles.titleFontFamily}>New Released Games</h2>
-            <div class="title-sep" />
+            <div class="title-sep"></div>
           </div>
 
           <ul class="game-list">

@@ -1,12 +1,14 @@
 <script>
-  export let isOpen = false;
-  export let onClose = () => {}; // Optional callback to handle close
+  import { preventDefault } from 'svelte/legacy';
+
 
   import { Search, CircleX } from 'svelte-lucide';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
+  /** @type {{isOpen?: boolean, onClose?: any}} */
+  let { isOpen = false, onClose = () => {} } = $props();
 
-  let value = $page.url.searchParams.get('q');
+  let value = $state($page.url.searchParams.get('q'));
 
   async function submit(e) {
     let query = new URLSearchParams();
@@ -19,7 +21,7 @@
 </script>
 
 <div class="search-container relative" class:open={isOpen}>
-  <form on:submit|preventDefault={submit} class="grid">
+  <form onsubmit={preventDefault(submit)} class="grid">
     <input
       class="search-bar"
       type="text"
@@ -30,7 +32,7 @@
     <button type="submit">
       <Search color="#9dddf9" />
     </button>
-    <button on:click={onClose}>
+    <button onclick={onClose}>
       <CircleX color="#9dddf9" />
     </button>
   </form>

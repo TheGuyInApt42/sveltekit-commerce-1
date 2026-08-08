@@ -1,9 +1,10 @@
 <script>
   import { onMount } from 'svelte';
   import GridTile from '$components/GridTile.svelte';
-  export let products = [];
+  /** @type {{products?: any}} */
+  let { products = [] } = $props();
   //console.log(releases);
-  let displayedProducts = [];
+  let displayedProducts = $state([]);
 
   onMount(async () => {
     displayedProducts = await products[3].node?.products?.edges;

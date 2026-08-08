@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	// Start: Local Imports
 	// Models
 
@@ -8,7 +10,8 @@
 
 	// Start: Exported Properties
 
-	export let metaData = {};
+	/** @type {{metaData?: any}} */
+	let { metaData = $bindable({}) } = $props();
 	// End: Exported Properties
 
 	const BASE_URL = environment.launchURL
@@ -35,7 +38,7 @@
 	const jsonLd = content =>
 		`<${'script'} type="application/ld+json">${JSON.stringify(content)}</${'script'}>`;
 
-	$: {
+	run(() => {
 		if (!!metaData.image && typeof metaData.image === 'string') {
 			metaData.openGraph = {
 				...metaData.openGraph,
@@ -60,7 +63,7 @@
 				'image:alt': metaData.image.alt || metaData.title,
 			};
 		}
-	}
+	});
 
 	const isProd = environment.production;
 </script>

@@ -3,7 +3,7 @@
   import SearchBar from '$lib/components/searchbar/SearchBar2.svelte';
   import { onMount } from 'svelte';
 
-  let isMenuOpen = false;
+  let isMenuOpen = $state(false);
   let searchOpen = false;
 
   const toggleMenu = () => {
@@ -50,16 +50,16 @@
     </div>
 
     <!-- Hamburger Menu -->
-    <button class="hamburger-menu md:hidden" on:click={toggleMenu} aria-expanded={isMenuOpen}>
+    <button class="hamburger-menu md:hidden" onclick={toggleMenu} aria-expanded={isMenuOpen}>
       <SquareMenu class="menu-icon text-[2rem] text-gray-800" />
     </button>
 
     <!-- Navigation -->
     <nav class={`navigation ${isMenuOpen ? 'open' : ''}`}>
       <ul>
-        <li><a href="/" on:click={closeMenu}>Home</a></li>
-        <li><a href="/about" on:click={closeMenu}>About</a></li>
-        <li><a href="/contact" on:click={closeMenu}>Contact</a></li>
+        <li><a href="/" onclick={closeMenu}>Home</a></li>
+        <li><a href="/about" onclick={closeMenu}>About</a></li>
+        <li><a href="/contact" onclick={closeMenu}>Contact</a></li>
         <!-- Search Icon -->
         <!-- <li class="main-nav-search last-menu-item flex justify-center">
           <button

@@ -1,14 +1,20 @@
 <script>
+  import { run } from 'svelte/legacy';
+
     // credit to svelte-headroom
   import { createEventDispatcher } from "svelte";
       import validate from "./validation";
 
-  export let duration = "300ms";
-  export let offset = 0;
-  export let tolerance = 0;
-  let headerClass = "pin";
-  let lastHeaderClass = "pin";
-  let y = 0;
+  /** @type {{duration?: string, offset?: number, tolerance?: number, children?: import('svelte').Snippet}} */
+  let {
+    duration = "300ms",
+    offset = 0,
+    tolerance = 0,
+    children
+  } = $props();
+  let headerClass = $state("pin");
+  let lastHeaderClass = $state("pin");
+  let y = $state(0);
   let lastY = 0;
   const dispatch = createEventDispatcher();
   function deriveClass(y = 0, scrolled = 0) {
@@ -29,14 +35,14 @@
     node.style.transitionDuration = duration;
   }
 
-  $: {
+  run(() => {
     validate({ duration, offset, tolerance });
     headerClass = updateClass(y);
     if (headerClass !== lastHeaderClass) {
       dispatch(headerClass);
     }
     lastHeaderClass = headerClass;
-  }
+  });
   
 </script>
 
@@ -58,5 +64,5 @@
 
 <svelte:window bind:scrollY={y} />
 <div use:action class={headerClass}>
-  <slot />
+  {@render children?.()}
 </div>

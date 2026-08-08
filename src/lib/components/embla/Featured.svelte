@@ -1,4 +1,6 @@
 <script>
+  import { run } from 'svelte/legacy';
+
   import embla from 'svelte-embla';
   import { writable } from 'svelte/store';
   import { fade } from 'svelte/transition';
@@ -11,7 +13,7 @@
 
   const gallery = writable();
   const thumbnails = writable();
-  let featured;
+  let featured = $state();
 
   onMount(async () => {
     const res = await getAllCollections();
@@ -30,7 +32,10 @@
   }  */
   });
 
-  $: selected = $gallery?.selectedScrollSnap() ?? 0;
+  let selected;
+  run(() => {
+    selected = $gallery?.selectedScrollSnap() ?? 0;
+  });
 
   const onThumbnailSelect = (index) => () => {
     if (!$thumbnails?.clickAllowed()) return;
@@ -67,7 +72,7 @@
     <div
       class="overflow-hidden"
       use:embla={{ store: gallery, loop: true, skipSnaps: false }}
-      on:e-select={onGallerySelect}
+      one-select={onGallerySelect}
     >
       <div class="grid auto-cols-[100%] grid-flow-col grid-rows-[400px] gap-x-[10px]">
         {#each featured as product, i (product.node.id)}
@@ -99,7 +104,7 @@
           <button
             class="group relative overflow-hidden rounded-[.25rem]"
             disabled={selected === i}
-            on:click={onThumbnailSelect(i)}
+            onclick={onThumbnailSelect(i)}
           >
             <img
               class="h-full w-full object-contain"
@@ -111,7 +116,7 @@
               <div
                 class="absolute left-0 top-0 h-full w-full bg-black opacity-60"
                 transition:fade|global={{ duration: 250 }}
-              />
+></div>
             {/if}
 
             <p

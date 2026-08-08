@@ -1,13 +1,16 @@
 <script>
-  export let src = '';
-  export let alt = 'Featured image';
-  export let href = null; // Optional link for clickable ads
-  export let height = '500px'; // Customizable height
-  export let fullHeight = false; // If true, uses calc(100vh - 90px) to account for header
-  export let headerOffset = 90; // Header height in pixels (default 90px)
+  /** @type {{src?: string, alt?: string, href?: any, height?: string, fullHeight?: boolean, headerOffset?: number}} */
+  let {
+    src = '',
+    alt = 'Featured image',
+    href = null,
+    height = '500px',
+    fullHeight = false,
+    headerOffset = 90
+  } = $props();
 
-  $: computedHeight = fullHeight ? `calc(100vh - ${headerOffset}px)` : height;
-  $: heroClass = fullHeight ? 'hero-image full-height' : 'hero-image';
+  let computedHeight = $derived(fullHeight ? `calc(100vh - ${headerOffset}px)` : height);
+  let heroClass = $derived(fullHeight ? 'hero-image full-height' : 'hero-image');
 </script>
 
 {#if href}

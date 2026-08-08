@@ -31,7 +31,7 @@
     <div class="fusion-title title">
       <h2 class="title-heading-left">New Released Games</h2>
       <div class="title-sep-container">
-        <div class="title-sep sep-single" />
+        <div class="title-sep sep-single"></div>
       </div>
     </div>
 
@@ -39,7 +39,7 @@
       {#each newReleasedGames as game}
         <li class="fusion-li-item game-item">
           <span class="icon-wrapper circle-no">
-            <i class="fusion-li-icon fa fa-check" />
+            <i class="fusion-li-icon fa fa-check"></i>
           </span>
           <div class="game-item-content">
             <h2>{game.title}</h2>

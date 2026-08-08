@@ -3,7 +3,11 @@ import type { Order } from '$lib/types'
 import Link from '$lib/components/Link.svelte'
 import OrderCard from '$lib/components/OrderCard.svelte'
 
-export let orders: Order[]
+  interface Props {
+    orders: Order[];
+  }
+
+  let { orders }: Props = $props();
 </script>
 
 <div class="bg-gray-100">

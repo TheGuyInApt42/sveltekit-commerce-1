@@ -1,32 +1,35 @@
 <script>
-  export let img = '';
 
-  export let type = '';
-  export let title = '';
-  export let href = '';
-  export let videoSrc = '';
-  export let price = '';
-  export let isThumbnail = false;
-  export let removeLabels = true;
-  export let priority = 'lazy';
-  export let reviewBadge = false;
-  export let product = {};
-  let hover = false;
+  /** @type {{img?: string, type?: string, title?: string, href?: string, videoSrc?: string, price?: string, isThumbnail?: boolean, removeLabels?: boolean, priority?: string, reviewBadge?: boolean, product?: any}} */
+  let {
+    img = '',
+    type = '',
+    title = '',
+    href = '',
+    videoSrc = '',
+    price = '',
+    isThumbnail = false,
+    removeLabels = true,
+    priority = 'lazy',
+    reviewBadge = false,
+    product = {}
+  } = $props();
+  let hover = $state(false);
 </script>
 
 <a
   {href}
   data-sveltekit-prefetch
   class="product-card"
-  on:mouseenter={() => {
+  onmouseenter={() => {
     hover = true;
   }}
-  on:mouseleave={() => {
+  onmouseleave={() => {
     hover = false;
   }}
 >
   {#if videoSrc}
-    <video src={videoSrc} autoplay loop class:isThumbnail={'thumbnail'} />
+    <video src={videoSrc} autoplay loop class:isThumbnail={'thumbnail'}></video>
   {:else}
     <img
       src={img}

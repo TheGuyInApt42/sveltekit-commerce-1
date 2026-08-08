@@ -1,7 +1,8 @@
 <script>
   import GridTile from '$components/GridTile.svelte';
   import { onMount } from 'svelte';
-  export let products = [];
+  /** @type {{products?: any}} */
+  let { products = [] } = $props();
   //console.log(releases);
   let displayedProducts = [];
 
@@ -27,14 +28,14 @@
       <a class="events__tab" data-tabcontent="tab-3" role="button">Switch</a>
       <a class="events__trigger" href="#" role="button">
         <span class="sr-only">Open and Close</span>
-        <i class="fas fa-chevron-down" />
-        <i class="fas fa-chevron-up" />
+        <i class="fas fa-chevron-down"></i>
+        <i class="fas fa-chevron-up"></i>
       </a>
     </nav>
-    <div id="tab-1" class="events__list -active" />
+    <div id="tab-1" class="events__list -active"></div>
 
-    <div id="tab-2" class="events__list" />
-    <div id="tab-3" class="events__list" />
+    <div id="tab-2" class="events__list"></div>
+    <div id="tab-3" class="events__list"></div>
   </section>
   <!-- .events -->
 </main>

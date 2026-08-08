@@ -1,7 +1,7 @@
 <script>
-  let email = '';
-  let message = '';
-  let success = false;
+  let email = $state('');
+  let message = $state('');
+  let success = $state(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -32,7 +32,7 @@
   }
 </script>
 
-<form on:submit={handleSubmit}>
+<form onsubmit={handleSubmit}>
   <label for="email">Email:</label>
   <input type="email" id="email" bind:value={email} required />
   <button type="submit">Subscribe</button>

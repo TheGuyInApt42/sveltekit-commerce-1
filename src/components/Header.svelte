@@ -1,4 +1,6 @@
 <script>
+  import { self } from 'svelte/legacy';
+
   import { page } from '$app/stores';
   import Icons from '$components/Icons.svelte';
   import { cartQuantity } from '../store';
@@ -7,9 +9,9 @@
 
   const dispatch = createEventDispatcher();
 
-  $: currentRoute = $page.url.pathname;
+  let currentRoute = $derived($page.url.pathname);
 
-  let showMenu = false;
+  let showMenu = $state(false);
 
   let tabs = [
     { name: 'All', path: '/search' },
@@ -58,7 +60,7 @@
     <SearchBar />
   </div>
   <div class="ml-auto flex items-center">
-    <button on:click={openCart} class="relative my-2 mx-4">
+    <button onclick={openCart} class="relative my-2 mx-4">
       <Icons strokeColor="#fff" type="cart" />
       <div
         data-test="cart-quantity"
@@ -68,7 +70,7 @@
       </div>
     </button>
     <button
-      on:click={() => {
+      onclick={() => {
         showMenu = true;
       }}
       aria-label="Open menu"
@@ -79,22 +81,22 @@
   </div>
   {#if showMenu}
     <div
-      on:click|self={() => {
+      onclick={self(() => {
         showMenu = false;
-      }}
+      })}
       class="absolute inset-0 z-50 flex max-h-screen w-full justify-end overflow-hidden bg-black/50 lg:hidden"
     >
       <div class="z-30 w-full bg-black p-6 md:w-1/2 lg:w-1/3">
         <div class="flex w-full items-center justify-between">
           <button
             aria-label="Close menu"
-            on:click={() => {
+            onclick={() => {
               showMenu = false;
             }}
           >
             <Icons strokeColor="#fff" type="close" />
           </button>
-          <button on:click={openCart} class="relative mr-4">
+          <button onclick={openCart} class="relative mr-4">
             <Icons strokeColor="#fff" type="cart" />
             <div
               class="absolute bottom-0 left-0 -ml-3 -mb-3 flex h-5 w-5 items-center justify-center rounded-full border border-black bg-white text-xs text-black"
@@ -107,7 +109,7 @@
           {#each tabs as tab, i (tab.name)}
             <div
               class:active={currentRoute === tab.path}
-              on:click={() => {
+              onclick={() => {
                 showMenu = false;
               }}
             >

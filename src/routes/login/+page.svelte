@@ -1,6 +1,7 @@
 <script>
   // Define props to receive the data
-  export let data;
+  /** @type {{data: any}} */
+  let { data } = $props();
 </script>
 
 <h1>Shop Details</h1>

@@ -5,24 +5,27 @@
   import { writable } from 'svelte/store';
   import { ArrowBigLeft, ArrowBigRight } from 'svelte-lucide';
 
-  export let fullHeight = false; // If true, uses calc(100vh - 90px) to account for header
-  export let headerOffset = 90; // Header height in pixels (default 90px)
-  export let images = [
+
+  /** @type {{fullHeight?: boolean, headerOffset?: number, images?: any, autoPlayDelay?: number}} */
+  let {
+    fullHeight = false,
+    headerOffset = 90,
+    images = [
     'https://images.igdb.com/igdb/image/upload/t_720p/ar3p7p.webp',
     'https://images.igdb.com/igdb/image/upload/t_720p/ar3lza.webp',
     'https://images.igdb.com/igdb/image/upload/t_720p/ar4u71.webp',
     'https://images.igdb.com/igdb/image/upload/t_720p/ar47zf.webp', // TODO: Replace with current game image 4
     'https://images.igdb.com/igdb/image/upload/t_720p/ar3vs2.webp' // TODO: Replace with current game image 5
-  ];
+  ],
+    autoPlayDelay = 5000
+  } = $props();
 
-  export let autoPlayDelay = 5000; // Delay between slides in milliseconds
-
-  let emblaNode; // DOM node for Embla
+  let emblaNode = $state(); // DOM node for Embla
   let emblaApi = null; // Embla instance
   const selected = writable(0);
 
-  $: computedHeight = fullHeight ? `calc(100vh - ${headerOffset}px)` : '500px';
-  $: carouselClass = fullHeight ? 'carousel full-height' : 'carousel';
+  let computedHeight = $derived(fullHeight ? `calc(100vh - ${headerOffset}px)` : '500px');
+  let carouselClass = $derived(fullHeight ? 'carousel full-height' : 'carousel');
 
   // Initialize Embla with AutoPlay
   onMount(() => {
@@ -61,17 +64,17 @@
   </div>
 
   <!-- Navigation Buttons -->
-  <button class="carousel__nav left" on:click={scrollPrev}>
+  <button class="carousel__nav left" onclick={scrollPrev}>
     <ArrowBigLeft size="24" />
   </button>
-  <button class="carousel__nav right" on:click={scrollNext}>
+  <button class="carousel__nav right" onclick={scrollNext}>
     <ArrowBigRight size="24" />
   </button>
 
   <!-- Pagination -->
   <div class="pagination">
     {#each images as _, index}
-      <button class:active={$selected === index} on:click={() => scrollTo(index)} />
+      <button class:active={$selected === index} onclick={() => scrollTo(index)}></button>
     {/each}
   </div>
 </div>

@@ -1,5 +1,8 @@
 <script>
-  export let events = [
+
+
+  /** @type {{events?: any, newReleases?: any, featuredSection?: any}} */
+  let { events = [
     {
       imageUrl: 'http://camphillplayntrade.com/wp-content/uploads/2015/01/image.img_.jpg',
       title: 'Madden 17 OCT 30- 6:00pm',
@@ -7,21 +10,17 @@
         '5$ for members, and 10$ for nonmembers to sign up now! It will be 5$ more at the door.'
     }
     // ... more events
-  ];
-
-  export let newReleases = [
+  ], newReleases = [
     {
       imageUrl: 'http://camphillplayntrade.com/wp-content/uploads/2016/10/Skyrim-Box-Art.jpg',
       title: '1. Skyrim HD'
     }
     // ... more new releases
-  ];
-
-  export let featuredSection = {
+  ], featuredSection = {
     imageUrl: 'http://camphillplayntrade.com/wp-content/uploads/2015/01/play.jpg',
     title: 'Play N Trade Gaming Center',
     description: 'Come on out for the ultimate gaming experience'
-  };
+  } } = $props();
 </script>
 
 <div id="main" class="clearfix">
@@ -33,7 +32,7 @@
             <div class="fusion-title title">
               <h2 class="title-heading-left">Events/Tournaments</h2>
               <div class="title-sep-container">
-                <div class="title-sep sep-single" />
+                <div class="title-sep sep-single"></div>
               </div>
             </div>
 
@@ -45,11 +44,11 @@
               {#if event.description}
                 <p>{event.description}</p>
               {/if}
-              <div class="fusion-sep-clear" />
+              <div class="fusion-sep-clear"></div>
               <div
                 class="fusion-separator fusion-full-width-sep sep-none"
                 style="border-color:#e0dede;margin-top:20px;"
-              />
+></div>
             {/each}
 
             <div class="fusion-title title">
@@ -57,7 +56,7 @@
                 {featuredSection.title}
               </h2>
               <div class="title-sep-container">
-                <div class="title-sep sep-single" />
+                <div class="title-sep sep-single"></div>
               </div>
             </div>
             <div class="imageframe-container">
@@ -73,14 +72,14 @@
             <div class="fusion-title title">
               <h2 class="title-heading-left">New Released Games</h2>
               <div class="title-sep-container">
-                <div class="title-sep sep-single" />
+                <div class="title-sep sep-single"></div>
               </div>
             </div>
             <ul class="fusion-checklist">
               {#each newReleases as release}
                 <li class="fusion-li-item size-small">
                   <span class="icon-wrapper circle-no">
-                    <i class="fusion-li-icon fa fa-check" style="color:#ffffff;" />
+                    <i class="fusion-li-icon fa fa-check" style="color:#ffffff;"></i>
                   </span>
                   <div class="fusion-li-item-content">
                     <h2>{release.title}</h2>
@@ -101,7 +100,7 @@
             </ul>
           </div>
         </div>
-        <div class="fusion-clearfix" />
+        <div class="fusion-clearfix"></div>
       </div>
     </div>
   </div>

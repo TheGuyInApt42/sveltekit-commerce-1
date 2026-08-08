@@ -1,5 +1,6 @@
 <script>
-  export let games = [];
+  /** @type {{games?: any}} */
+  let { games = [] } = $props();
   //console.log('games: ', games);
 
   // Sample data - in real usage this would likely be passed as props
@@ -78,7 +79,7 @@
         />
         <div
           class="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 group-hover:opacity-40"
-        />
+></div>
       </div>
 
       <div class="p-4">

@@ -2,9 +2,9 @@
   import ExternalLink from '$lib/components/external-link/ExternalLink.svelte';
 
   let status = '';
-  let submitting = false;
-  let formMessageWarning = '';
-  let formMessageSuccess = '';
+  let submitting = $state(false);
+  let formMessageWarning = $state('');
+  let formMessageSuccess = $state('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -81,7 +81,7 @@
                 {/if}
 
                 <form
-                  on:submit={handleSubmit}
+                  onsubmit={handleSubmit}
                   id="contactForm"
                   name="contactForm"
                   class="contactForm"
@@ -143,7 +143,7 @@
                           cols="30"
                           rows="6"
                           placeholder="Message"
-                        />
+></textarea>
                       </div>
                     </div>
                     <div class="col-md-12">
@@ -170,7 +170,7 @@
                 <p class="mb-6 text-white">We're open for any suggestion or just to have a chat</p>
                 <div class="dbox flex items-center">
                   <div class="icon flex items-center justify-center">
-                    <span class="fa fa-map-marker" />
+                    <span class="fa fa-map-marker"></span>
                   </div>
                   <div class="text pl-6">
                     <p class="text-white">
@@ -187,7 +187,7 @@
                 </div>
                 <div class="dbox flex items-center">
                   <div class="icon flex items-center justify-center">
-                    <span class="fa fa-phone" />
+                    <span class="fa fa-phone"></span>
                   </div>
                   <div class="text pl-6 font-display">
                     <p>
@@ -198,7 +198,7 @@
                 </div>
                 <div class="dbox flex items-center">
                   <div class="icon flex items-center justify-center">
-                    <span class="fa fa-paper-plane" />
+                    <span class="fa fa-paper-plane"></span>
                   </div>
                   <div class="text pl-6">
                     <p>

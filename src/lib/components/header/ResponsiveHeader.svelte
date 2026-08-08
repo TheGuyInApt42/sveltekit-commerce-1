@@ -14,7 +14,7 @@
 
 	const dispatch = createEventDispatcher();
 
-  	$: currentRoute = $page.url.pathname;
+  	let currentRoute = $derived($page.url.pathname);
 
 	let showMenu = false;
 
@@ -70,21 +70,21 @@
 
 					<li class="md:hidden z-90 fixed top-4 right-6">
 						<a href="#" class="text-right text-4xl togglebutton-close"
-							on:click={toggleMenu}>&times;</a>
+							onclick={toggleMenu}>&times;</a>
 					</li>
 
 					<li class:active={$page.url.pathname === '/'}>
-						<a class="nav-link" data-sveltekit-prefetch href="/" on:click={toggleMenu}>Home</a>
+						<a class="nav-link" data-sveltekit-prefetch href="/" onclick={toggleMenu}>Home</a>
 					</li>
 					<li class:active={$page.url.pathname === '/about'}>
-						<a class="nav-link" data-sveltekit-prefetch href="/about" on:click={toggleMenu}>About</a>
+						<a class="nav-link" data-sveltekit-prefetch href="/about" onclick={toggleMenu}>About</a>
 					</li>
 
 					<!-- <li class:active={$page.url.pathname === '/gallery'}>
 						<a class={linkStyles} href="/gallery" on:click={toggleMenu}>Gallery</a>
 					</li> -->
 					<li class:active={$page.url.pathname === '/contact'}>
-						<a class="nav-link" data-sveltekit-prefetch href="/contact" on:click={toggleMenu}>Contact</a>
+						<a class="nav-link" data-sveltekit-prefetch href="/contact" onclick={toggleMenu}>Contact</a>
 					</li>
 				</ul>
 			
@@ -94,7 +94,7 @@
 			<!-- This is used to open the menu on mobile devices -->
 			<div class="flex items-center md:hidden">
 				<button class="text-4xl font-bold opacity-70 hover:opacity-100 duration-300 fixed right-6 togglebutton-open"
-					on:click={toggleMenu}>
+					onclick={toggleMenu}>
 					&#9776;
 				</button>
 			</div>

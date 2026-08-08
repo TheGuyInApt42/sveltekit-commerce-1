@@ -1,22 +1,25 @@
 <script>
+  import { run, self } from 'svelte/legacy';
+
   import { getCartItems } from '$store';
   import HeadTags from '$lib/components/head-tags/HeadTags.svelte';
   import { findVariantId, formatPrice } from '$utils/shopify';
   import { onMount } from 'svelte';
 
-  /** @type {import('./$types').PageData} */
-  export let data;
+  
+  /** @type {{data: import('./$types').PageData}} */
+  let { data } = $props();
 
-  let product;
-  let trailers = [];
-  let selectedOptions = {};
-  let cartLoading = false;
-  let currentImageIndex = 0;
-  let currentVariant = null;
-  let variantId = null;
+  let product = $state();
+  let trailers = $state([]);
+  let selectedOptions = $state({});
+  let cartLoading = $state(false);
+  let currentImageIndex = $state(0);
+  let currentVariant = $state(null);
+  let variantId = $state(null);
   let highlightedImageSrc = null;
-  let showTrailer = false;
-  let currentTrailer = null;
+  let showTrailer = $state(false);
+  let currentTrailer = $state(null);
   let dataInitialized = false;
 
   // Initialize data immediately since it's available
@@ -39,9 +42,11 @@
   });
 
   // Handle variant ID updates
-  $: if (product?.variants) {
-    variantId = findVariantId(product.variants, selectedOptions) || product.id;
-  }
+  run(() => {
+    if (product?.variants) {
+      variantId = findVariantId(product.variants, selectedOptions) || product.id;
+    }
+  });
 
   function updateCurrentVariant() {
     if (!product?.variants) return;
@@ -100,10 +105,10 @@
   <div class="flex min-h-screen items-center justify-center bg-gray-50">
     <div class="text-center">
       <div class="lds-ring mb-4">
-        <div />
-        <div />
-        <div />
-        <div />
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
       <p class="text-gray-600">Loading product data...</p>
     </div>
@@ -114,12 +119,12 @@
   {#if showTrailer && currentTrailer}
     <div
       class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
-      on:click|self={() => (showTrailer = false)}
+      onclick={self(() => (showTrailer = false))}
     >
       <div class="relative aspect-video w-full max-w-6xl">
         <button
           class="absolute -top-10 right-0 text-white hover:text-gray-300"
-          on:click={() => (showTrailer = false)}
+          onclick={() => (showTrailer = false)}
         >
           Close ×
         </button>
@@ -129,7 +134,7 @@
           src={`https://www.youtube.com/embed/${currentTrailer.video_id}`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
-        />
+></iframe>
       </div>
     </div>
   {/if}
@@ -143,7 +148,7 @@
               <!-- Main Trailer Display -->
               <div
                 class="group relative aspect-video cursor-pointer overflow-hidden rounded-xl bg-black"
-                on:click={() => selectTrailer(trailers[0])}
+                onclick={() => selectTrailer(trailers[0])}
               >
                 <img
                   src={trailers[0].thumbnail.high}
@@ -156,7 +161,7 @@
                   >
                     <div
                       class="ml-2 h-0 w-0 border-b-[12px] border-l-[24px] border-t-[12px] border-b-transparent border-l-black border-t-transparent"
-                    />
+></div>
                   </div>
                 </div>
                 <div
@@ -174,7 +179,7 @@
                   {#each trailers.slice(1) as trailer}
                     <div
                       class="group relative aspect-video w-64 flex-shrink-0 cursor-pointer overflow-hidden rounded-lg"
-                      on:click={() => selectTrailer(trailer)}
+                      onclick={() => selectTrailer(trailer)}
                     >
                       <img
                         src={trailer.thumbnail.medium}
@@ -187,7 +192,7 @@
                         >
                           <div
                             class="ml-1 h-0 w-0 border-b-[8px] border-l-[16px] border-t-[8px] border-b-transparent border-l-black border-t-transparent"
-                          />
+></div>
                         </div>
                       </div>
                       <div
@@ -212,7 +217,7 @@
               <div class="absolute inset-0 flex items-center justify-between p-4">
                 <button
                   class="rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
-                  on:click={() =>
+                  onclick={() =>
                     (currentImageIndex =
                       (currentImageIndex - 1 + product.images.length) % product.images.length)}
                 >
@@ -220,7 +225,7 @@
                 </button>
                 <button
                   class="rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
-                  on:click={() =>
+                  onclick={() =>
                     (currentImageIndex = (currentImageIndex + 1) % product.images.length)}
                 >
                   →
@@ -234,7 +239,7 @@
                   class="h-16 w-24 overflow-hidden rounded-lg {currentImageIndex === i
                     ? 'ring-2 ring-blue-500'
                     : ''}"
-                  on:click={() => (currentImageIndex = i)}
+                  onclick={() => (currentImageIndex = i)}
                 >
                   <img src={image.src} alt="" class="h-full w-full object-cover" />
                 </button>
@@ -262,7 +267,7 @@
                       variant.selectedOptions[0].value
                         ? 'bg-blue-500 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}"
-                      on:click={() =>
+                      onclick={() =>
                         handleOptionChange('Platform', variant.selectedOptions[0].value)}
                     >
                       {variant.selectedOptions[0].value}
@@ -272,17 +277,17 @@
               </div>
 
               <button
-                on:click={addToCart}
+                onclick={addToCart}
                 disabled={cartLoading}
                 class="cart-button w-full rounded-lg bg-blue-500 py-3 font-semibold text-white transition hover:bg-blue-600"
               >
                 <span>{cartLoading ? 'Adding...' : 'Add To Cart'}</span>
                 {#if cartLoading}
                   <div class="lds-ring ml-4">
-                    <div />
-                    <div />
-                    <div />
-                    <div />
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
                   </div>
                 {/if}
               </button>

@@ -1,9 +1,12 @@
 <script>
+  import { createBubbler, self } from 'svelte/legacy';
+
+  const bubble = createBubbler();
   import Icons from './Icons.svelte';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
-  export let loading = false;
-  export let items = [];
+  /** @type {{loading?: boolean, items?: any}} */
+  let { loading = $bindable(false), items = [] } = $props();
   function addOneItem(item, i) {
     loading = true;
     dispatch('addProduct', {
@@ -40,16 +43,16 @@
 </script>
 
 <div
-  on:click|self
+  onclick={self(bubble('click'))}
   class="absolute inset-0 z-50 flex max-h-screen w-full justify-end overflow-hidden bg-black/50"
 >
   <div class="relative z-50 w-full bg-black p-6 md:w-1/2 lg:w-1/3">
     {#if loading}
-      <div class="absolute inset-0 z-50 bg-black/50" />
+      <div class="absolute inset-0 z-50 bg-black/50"></div>
     {/if}
     <div class="mb-6 flex w-full items-center justify-between">
       <div class="text-2xl font-medium">My Cart</div>
-      <button on:click class="text-sm uppercase opacity-80 hover:opacity-100">close</button>
+      <button onclick={bubble('click')} class="text-sm uppercase opacity-80 hover:opacity-100">close</button>
     </div>
     {#if items.length === 0}
       <div class="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
@@ -81,7 +84,7 @@
         </div>
         <div class="mb-4 flex w-full">
           <button
-            on:click={() => {
+            onclick={() => {
               removeEntireItem(item, i);
             }}
             class="mr-2 flex h-8 w-8 items-center justify-center border border-white/40 bg-white/0 hover:bg-white/10"
@@ -93,7 +96,7 @@
               {item.node.quantity}
             </div>
             <button
-              on:click={() => {
+              onclick={() => {
                 removeOneItem(item, i);
               }}
               class="ml-auto flex h-8 w-8 items-center justify-center border-l border-white/40 bg-white/0 hover:bg-white/10"
@@ -101,7 +104,7 @@
               <Icons type="minus" strokeColor="#fff" />
             </button>
             <button
-              on:click={() => {
+              onclick={() => {
                 addOneItem(item, i);
               }}
               class="flex h-8 w-8 items-center justify-center border-l border-white/40 bg-white/0 hover:bg-white/10"
@@ -114,16 +117,16 @@
     </div>
     {#if items.length !== 0}
       <button
-        on:click={checkout}
+        onclick={checkout}
         class="mt-6 flex w-full items-center justify-center bg-white p-3 text-sm font-medium uppercase text-black opacity-90 hover:opacity-100"
       >
         <span>Proceed to Checkout</span>
         {#if loading}
           <div class="lds-ring ml-4">
-            <div />
-            <div />
-            <div />
-            <div />
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
         {/if}
       </button>

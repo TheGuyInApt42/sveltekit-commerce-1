@@ -2,9 +2,10 @@
   import { onMount } from 'svelte';
   import GridTile from '$components/GridTile.svelte';
   import Button from '../button/Button.svelte';
-  export let products = [];
+  /** @type {{products?: any}} */
+  let { products = [] } = $props();
   //console.log(releases);
-  let displayedProducts = [];
+  let displayedProducts = $state([]);
 
   onMount(async () => {
     displayedProducts = await products[2].node?.products?.edges;

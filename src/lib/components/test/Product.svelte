@@ -1,6 +1,7 @@
 <script>
   // Props for the game data
-  export let game = {
+  /** @type {{game?: any}} */
+  let { game = {
     title: 'Stellar Odyssey: Infinite Horizon',
     price: 59.99,
     images: ['/api/placeholder/800/450', '/api/placeholder/800/450', '/api/placeholder/800/450'],
@@ -22,23 +23,23 @@
     rating: 'ESRB T (Teen)',
     developer: 'Cosmic Games Studio',
     publisher: 'Galaxy Entertainment'
-  };
+  } } = $props();
 
-  let currentImageIndex = 0;
-  let selectedPlatform = game.platforms[0];
-  let showTrailer = false;
+  let currentImageIndex = $state(0);
+  let selectedPlatform = $state(game.platforms[0]);
+  let showTrailer = $state(false);
 </script>
 
 <!-- Video Trailer Modal -->
 {#if showTrailer}
   <div
     class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
-    on:click={() => (showTrailer = false)}
+    onclick={() => (showTrailer = false)}
   >
     <div class="relative aspect-video w-full max-w-6xl">
       <button
         class="absolute -top-10 right-0 text-white hover:text-gray-300"
-        on:click={() => (showTrailer = false)}
+        onclick={() => (showTrailer = false)}
       >
         Close ×
       </button>
@@ -48,7 +49,7 @@
         src={game.trailer.videoUrl}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
-      />
+></iframe>
     </div>
   </div>
 {/if}
@@ -62,7 +63,7 @@
         <!-- Trailer Section -->
         <div
           class="group relative aspect-video cursor-pointer overflow-hidden rounded-xl bg-black"
-          on:click={() => (showTrailer = true)}
+          onclick={() => (showTrailer = true)}
         >
           <img
             src={game.trailer.thumbnailUrl}
@@ -75,7 +76,7 @@
             >
               <div
                 class="ml-2 h-0 w-0 border-b-[12px] border-l-[24px] border-t-[12px] border-b-transparent border-l-black border-t-transparent"
-              />
+></div>
             </div>
           </div>
           <div
@@ -96,7 +97,7 @@
           <div class="absolute inset-0 flex items-center justify-between p-4">
             <button
               class="rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
-              on:click={() =>
+              onclick={() =>
                 (currentImageIndex =
                   (currentImageIndex - 1 + game.images.length) % game.images.length)}
             >
@@ -104,7 +105,7 @@
             </button>
             <button
               class="rounded-full bg-black/50 p-2 text-white hover:bg-black/70"
-              on:click={() => (currentImageIndex = (currentImageIndex + 1) % game.images.length)}
+              onclick={() => (currentImageIndex = (currentImageIndex + 1) % game.images.length)}
             >
               →
             </button>
@@ -118,7 +119,7 @@
               class="h-16 w-24 overflow-hidden rounded-lg {currentImageIndex === i
                 ? 'ring-2 ring-blue-500'
                 : ''}"
-              on:click={() => (currentImageIndex = i)}
+              onclick={() => (currentImageIndex = i)}
             >
               <img src={image} alt="" class="h-full w-full object-cover" />
             </button>
@@ -146,7 +147,7 @@
                   class="rounded-lg px-4 py-2 {selectedPlatform === platform
                     ? 'bg-blue-500 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}"
-                  on:click={() => (selectedPlatform = platform)}
+                  onclick={() => (selectedPlatform = platform)}
                 >
                   {platform}
                 </button>

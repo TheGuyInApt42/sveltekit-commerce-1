@@ -1,4 +1,6 @@
 <script>
+	import { run } from 'svelte/legacy';
+
 	import embla from "svelte-embla"
     import { writable } from 'svelte/store';
 	import { onMount } from "svelte";
@@ -10,14 +12,18 @@ const onLeft = () => $carousel?.canScrollPrev() && $carousel?.scrollPrev();
 	const onRight = () => $carousel?.canScrollNext() && $carousel?.scrollNext();
 	const select = index => () => $carousel?.scrollTo(index);
 
-	$: selected = $carousel?.selectedScrollSnap() ?? 0;
+	let selected;
+	run(() => {
+		selected = $carousel?.selectedScrollSnap() ?? 0;
+	});
 	const onSelect = () => {
 		selected = $carousel?.selectedScrollSnap();
 	};
 
   
 
-    export let photos = []
+	/** @type {{photos?: any}} */
+	let { photos = [] } = $props();
 	let bigPhotos = []
 	
 	
@@ -53,7 +59,7 @@ const onLeft = () => $carousel?.canScrollPrev() && $carousel?.scrollPrev();
 {#await getCovers(photos) then bigPhotos}
 	<!-- promise was fulfilled -->
 	<div class="w-full max-w-[1200px]  p-2 rounded-[.25rem] overflow-hidden">
-	<div class="overflow-hidden" use:embla={{ store: carousel }} on:e-select={onSelect}>
+	<div class="overflow-hidden" use:embla={{ store: carousel }} one-select={onSelect}>
 		<div class="grid grid-flow-col grid-cols-[repeat(17,100%)] grid-rows-[600px] gap-x-[10px]">
 			{#each bigPhotos as photo, index}
 				<div class="relative last:mr-[10px]">
@@ -79,25 +85,25 @@ const onLeft = () => $carousel?.canScrollPrev() && $carousel?.scrollPrev();
     <button
 		class="absolute top-[50%] left-4 disabled:opacity-30 disabled:cursor-not-allowed"
 		disabled={selected === 0}
-		on:click={onLeft}
+		onclick={onLeft}
 	>
 		<img class="w-[26px] h-[26px] rotate-180" src="carousel-arrow.svg" alt="" />
 	</button>
 	<button
 		class="absolute top-[50%] right-4 disabled:opacity-30 disabled:cursor-not-allowed"
 		disabled={selected === photos.length - 1}
-		on:click={onRight}
+		onclick={onRight}
 	>
 		<img class="w-[26px] h-[26px]" src="carousel-arrow.svg" alt="" />
 	</button>
 
     <div class="absolute left-0 w-full flex justify-center gap-4">
 		{#each bigPhotos as photo, index}
-			<button class="w-[30px] h-[30px] grid place-items-center" on:click={select(index)}>
+			<button class="w-[30px] h-[30px] grid place-items-center" onclick={select(index)}>
 				<div
 					class="w-full h-[3px] bg-black rounded-[.25rem]"
 					class:[background:linear-gradient(45deg,#ff9500,#ffcc00)]={selected === index}
-				/>
+				></div>
 			</button>
 		{/each}
 	</div>

@@ -1,4 +1,6 @@
 <script>
+  /** @type {{children?: import('svelte').Snippet}} */
+  let { children } = $props();
   const categories = [
     {
       title: 'All',
@@ -54,6 +56,6 @@
     </ul>
   </nav>
   <div class="min-h-screen">
-    <slot />
+    {@render children?.()}
   </div>
 </div>

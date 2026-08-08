@@ -2,8 +2,12 @@
 import type { Customer } from '$lib/types'
 import Link from '$lib/components/Link.svelte'
 
-export let customer: Customer
-$: ({ firstName, lastName, email, phone } = customer)
+  interface Props {
+    customer: Customer;
+  }
+
+  let { customer }: Props = $props();
+let { firstName, lastName, email, phone } = $derived(customer)
 </script>
 
 <div class="flex flex-col gap-2 bg-gray-100">

@@ -1,20 +1,23 @@
 <script>
-  export let title = '';
-  export let removeLabels = false;
-  export let imageSrc;
-  export let price = '';
-  export let currencyCode = '';
-  export let href = '';
-  export let priority = 'lazy';
+  /** @type {{title?: string, removeLabels?: boolean, imageSrc: any, price?: string, currencyCode?: string, href?: string, priority?: string}} */
+  let {
+    title = '',
+    removeLabels = false,
+    imageSrc,
+    price = '',
+    currencyCode = '',
+    href = '',
+    priority = 'lazy'
+  } = $props();
 
-  let hover = false;
+  let hover = $state(false);
 </script>
 
 <div
-  on:mouseenter={() => {
+  onmouseenter={() => {
     hover = true;
   }}
-  on:mouseleave={() => {
+  onmouseleave={() => {
     hover = false;
   }}
   class="h-full w-full overflow-hidden"

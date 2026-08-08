@@ -3,9 +3,10 @@
   import ComingSoonGrid from './ComingSoonGrid.svelte';
   import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
-  export let releases = [];
+  /** @type {{releases?: any}} */
+  let { releases = [] } = $props();
 
-  let games = [];
+  let games = $state([]);
 
   onMount(async () => {
     games = await releases;

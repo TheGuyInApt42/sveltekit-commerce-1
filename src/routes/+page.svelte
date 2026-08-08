@@ -33,14 +33,15 @@
     ]
   };
 
-  export let data;
+  /** @type {{data: any}} */
+  let { data } = $props();
   const sliderImages = data.sliderImages;
 
   //TODO: check handling end of month/new month
-  $: recent = data.recent;
-  $: soon = data.soon;
-  $: top = data.top;
-  $: games = data.products;
+  let recent = $derived(data.recent);
+  let soon = $derived(data.soon);
+  let top = $derived(data.top);
+  let games = $derived(data.products);
   let topGames = {};
 
   //TODO: check into local storage fallback

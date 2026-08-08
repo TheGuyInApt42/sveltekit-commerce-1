@@ -1,7 +1,6 @@
 <script>
-    export let size = 'mid'
-    export let release = {}
-    export let showSystems = false
+	/** @type {{size?: string, release?: any, showSystems?: boolean}} */
+	let { size = 'mid', release = {}, showSystems = false } = $props();
 
 	const removeNullValues = array => {
   const filtered = array.filter(e => e);
@@ -12,8 +11,8 @@
 
 	const consoles = removeNullValues(release.game.platforms)
 
-	let firstRowConsoles = []
-	let secondRowConsoles = []
+	let firstRowConsoles = $state([])
+	let secondRowConsoles = $state([])
 
 	if (consoles.length > 3){
 		firstRowConsoles = consoles.slice(0, 3)
