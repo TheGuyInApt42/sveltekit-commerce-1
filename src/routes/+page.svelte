@@ -15,7 +15,7 @@
   import Embla2 from '$lib/components/slider/Embla2.svelte';
   import Events from '$lib/components/events/Events.svelte';
   import NewReleases3 from '../lib/components/new-releases/NewReleases3.svelte';
-  import Copy from '$lib/components/test/Copy.svelte';
+
   import SingleCol from '../lib/components/test/SingleCol.svelte';
 
   // Start: Local component properties
