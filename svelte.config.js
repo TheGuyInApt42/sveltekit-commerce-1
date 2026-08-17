@@ -11,6 +11,14 @@ const config = {
       $lib: 'src/lib',
       $store: 'src/store.js',
       $api: 'src/routes/api.js'
+    },
+    experimental: {
+      remoteFunctions: true
+    }
+  },
+  compilerOptions: {
+    experimental: {
+      async: true // required for remote functions
     }
   },
   preprocess: [

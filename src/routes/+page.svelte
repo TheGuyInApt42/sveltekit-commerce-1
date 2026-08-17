@@ -1,24 +1,9 @@
 <script>
-  import { onMount } from 'svelte';
-  import { browser } from '$app/environment';
-
-  // Components
   import HeadTags from '$lib/components/head-tags/HeadTags.svelte';
-  import NewReleases2 from '$lib/components/new-releases/NewReleases2.svelte';
-  import Featured from '../lib/components/embla/Featured.svelte';
-  import DataLogger from '$lib/components/data-logger/DataLogger.svelte';
-  import ComingSoon from '$lib/components/coming-soon/ComingSoon.svelte';
-  import EmblaThumbs from '$lib/components/embla/EmblaThumbs.svelte';
-  import Deals from '$lib/components/deals/Deals.svelte';
-  import Facebook from '../lib/components/facebook/Facebook.svelte';
-  import NewsletterSignup from '$lib/components/newsletter-signup/NewsletterSignup.svelte';
-  import Embla2 from '$lib/components/slider/Embla2.svelte';
-  import Events from '$lib/components/events/Events.svelte';
-  import NewReleases3 from '../lib/components/new-releases/NewReleases3.svelte';
+  import HeroCarousel from '$lib/components/hero/HeroCarousel.svelte';
+  import { getFeaturedProducts } from '$lib/functions/products.remote.js';
+  import { getProducts } from '$lib/functions/products.remote.js';
 
-  import SingleCol from '../lib/components/test/SingleCol.svelte';
-
-  // Start: Local component properties
   const metaData = {
     title: `PlayNTrade | Home`,
     description:
@@ -33,199 +18,128 @@
     ]
   };
 
-  /** @type {{data: any}} */
-  let { data } = $props();
-  const sliderImages = data.sliderImages;
+  //const featured = await getFeaturedProducts();
+  const products = await getProducts();
 
-  //TODO: check handling end of month/new month
-  let recent = $derived(data.recent);
-  let soon = $derived(data.soon);
-  let top = $derived(data.top);
-  let games = $derived(data.products);
-  let topGames = {};
-
-  //TODO: check into local storage fallback
-  async function storeTopGames() {
-    if (browser) window.localStorage.setItem('top', JSON.stringify(await data.top));
-  }
-
-  async function retrieveTopGames() {
-    if (browser) {
-      return JSON.parse(window.localStorage.getItem('top'));
-    }
-  }
-
-  onMount(async () => {
-    topGames = await retrieveTopGames();
-  });
+  const systems = [
+    'PS2',
+    'X360',
+    'PS1',
+    'PS3',
+    'XONE',
+    'XBX',
+    'Wii',
+    'PS4',
+    'NDS',
+    'NES',
+    'GEN',
+    'NSW'
+  ];
 </script>
 
-<!-- Start: Header Tag -->
 <HeadTags {metaData} />
-<!-- End: Header Tag -->
 
-<div class="flex flex-col items-center justify-center gap-4">
-  <Embla2 fullHeight={true} images={sliderImages} />
-</div>
+<HeroCarousel {products} />
 
-<h1 class="text-center">Play N Trade Camp Hill</h1>
-<!-- <NewsletterSignup /> -->
-
-<!-- <div class="flex w-full justify-center px-4 sm:px-6 md:px-8">
-    <div
-      class="divider divider-neutral w-full max-w-[280px] sm:max-w-[540px] md:max-w-[720px] lg:max-w-[960px] xl:max-w-[1100px]"
-    >
-      <h2 class="text-center text-base sm:text-lg md:text-xl lg:text-2xl">New Released Games</h2>
-    </div>
-  </div> -->
-
-<!-- SingleCol {games} /> -->
-
-<!--  <div class="site-content flex flex-col md:flex-row">
-    <Events />
-    <NewReleases3 />
-  </div> -->
-
-<section
-  class="prose prose-black mx-auto flex max-w-full flex-col gap-4 px-4 pt-16 lg:prose-xl prose-p:text-black prose-strong:text-black prose-ol:text-xl
-	prose-ol:text-black prose-ul:text-xl prose-ul:text-black sm:px-6 md:max-w-3xl md:px-8"
->
-  <div class="not-prose my-4 flex flex-col items-center justify-center gap-4 py-8 sm:flex-row">
-    <span class="hidden sm:block">
-      <img src="/images/controller.png" alt="" class="h-8 w-8" />
-    </span>
-    <h2 class="text-bold text-center text-2xl text-black sm:text-3xl">
-      Welcome to Our Retro Gaming Paradise!
-    </h2>
-    <span class="hidden sm:block">
-      <img src="/images/controller.png" alt="" class="h-8 w-8" />
-    </span>
+<section class="systems">
+  <h2>Shop by System</h2>
+  <div class="systems-grid">
+    {#each systems as system}
+      <a href={`/shop?type=${system}`} class="system-pill">{system}</a>
+    {/each}
   </div>
-
-  <p class="text-base sm:text-lg">
-    At <strong>Camp Hill Play N Trade</strong>, we're not just a store; we're a
-    <strong>time machine</strong>
-    that transports you back to the golden era of gaming. Whether you're a seasoned gamer or a curious
-    newbie, we've got something special for you:
-  </p>
-
-  <ol class="not-prose space-y-4 pl-4 text-base text-black sm:text-lg">
-    <li class="mb-4">
-      <strong>Classic Games</strong>: Dive into nostalgia with our extensive collection of vintage
-      video games. From pixelated adventures on the Atari to epic quests on the NES, we've curated
-      the best titles from the '80s and '90s. Rediscover the magic of games that stood the test of
-      time!
-    </li>
-    <li class="mb-4">
-      <strong>New Releases</strong>: Stay ahead of the gaming curve! We stock the latest releases
-      for all major consoles. Whether you're a PlayStation devotee, an Xbox enthusiast, or a
-      Nintendo loyalist, we've got your gaming fix covered. Pre-order, grab your controller, and
-      embark on epic quests in stunning high-definition.
-    </li>
-    <li class="mb-4">
-      <strong>Old Accessories, New Thrills</strong>: Need a trusty controller for your retro
-      console? Looking for that elusive memory card? Our shelves are brimming with vintage
-      accessories that'll level up your gaming experience. Plus, we've got the latest gaming
-      peripherals to enhance your gameplay—because classics deserve modern comfort too!
-    </li>
-    <li class="mb-4">
-      <strong>Systems Galore</strong>: Ready to relive the past or embrace the future? Choose from
-      our refurbished old-school systems or the latest gaming powerhouses. Whether you crave the
-      simplicity of the Sega Genesis or crave the cutting-edge graphics of the PlayStation 5, we've
-      got the perfect system waiting for you.
-    </li>
-  </ol>
-
-  <div class="not-prose my-4 flex flex-col items-center justify-center gap-4 py-8 sm:flex-row">
-    <span class="hidden sm:block">
-      <img src="/images/flames.png" alt="" class="h-8 w-8" />
-    </span>
-    <h2 class="text-bold text-center text-2xl text-black sm:text-3xl">
-      Why Choose Camp Hill Play N Trade?
-    </h2>
-    <span class="hidden sm:block">
-      <img src="/images/flames.png" alt="" class="h-8 w-8" />
-    </span>
-  </div>
-
-  <ol class="not-prose space-y-4 pl-4 text-base text-black sm:text-lg">
-    <li class="mb-4">
-      <strong>Quality Assurance</strong>: All our games and systems undergo rigorous testing. No
-      glitches, no surprises—just pure gaming joy.
-    </li>
-    <li class="mb-4">
-      <strong>Friendly Experts</strong>: Our team lives and breathes gaming. Ask us anything—from
-      cheat codes to console hacks, we've got the answers.
-    </li>
-    <li class="mb-4">
-      <strong>Collector's Paradise</strong>: Looking for rare gems? We've got your back. WATA-graded
-      games? Check. Limited editions? Double-check.
-    </li>
-  </ol>
-
-  <p class="text-base sm:text-lg">
-    So, whether you're chasing high scores, reliving childhood memories, or exploring new realms,
-    step into <strong>Camp Hill Play N Trade</strong>. Because in our world, pixels are forever, and
-    the adventure never ends.
-  </p>
-  <p class="text-base sm:text-lg">
-    Swing by our cozy store in Mechanicsburg. Let's press start and create gaming legends together!
-    🕹️
-  </p>
 </section>
 
-<!-- <section class="py-16">
-    <Deals {products} />
-  </section>
+<section class="new-arrivals">
+  <h2>New Arrivals</h2>
+  <div class="arrivals-grid">
+    {#each products as product (product.id)}
+      <a href={`/products/${product.handle}`} class="product-card">
+        <img src={product.featuredImage?.url} alt={product.title} />
+        <h3>{product.title}</h3>
+        <p>${product.variants.edges[0]?.node.price.amount}</p>
+      </a>
+    {/each}
+  </div>
+</section>
 
-  <section class="py-16">
-    <NewReleases2 {products} />
-  </section>
-
-  <section class="py-16">
-    <ComingSoon {products} />
-  </section> -->
-
-<!-- <section class="py-16">
-    <Facebook />
-  </section> -->
+<section class="about prose prose-black mx-auto max-w-3xl px-4 py-16 lg:prose-xl">
+  <h2 class="text-center text-2xl sm:text-3xl">Welcome to Our Retro Gaming Paradise!</h2>
+  <p>
+    At <strong>Camp Hill Play N Trade</strong>, we're your local source for retro and modern video
+    games, consoles, and accessories — every item in our store is real, in-stock inventory,
+    browsable right here.
+  </p>
+</section>
 
 <div class="divider pb-8 before:bg-black after:bg-black">
   <h4 class="text-bold text-2xl text-black">Come Check Us Out!</h4>
 </div>
 
 <style>
-  section {
+  .systems {
+    padding: 3rem 1rem;
+    text-align: center;
+  }
+  .systems-grid {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 0.75rem;
     justify-content: center;
-    align-items: center;
-    flex: 1;
+    margin-top: 1.5rem;
+  }
+  .system-pill {
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    background: var(--playntrade-blue, #1e3a8a);
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+  .system-pill:hover {
+    transform: scale(1.05);
   }
 
-  h1 {
-    color: var(--playntrade-blue);
-  }
-
-  .site-content {
-    max-width: 1100px;
+  .new-arrivals {
+    padding: 2rem 1rem 4rem;
+    max-width: 1200px;
     margin: 0 auto;
   }
-
-  ol li {
-    margin-bottom: 1rem;
+  .new-arrivals h2 {
+    text-align: center;
+    margin-bottom: 2rem;
   }
-
-  ol strong {
-    text-decoration: underline;
-    text-decoration-color: var(--playntrade-turquoise);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 0.5rem;
+  .arrivals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
   }
-
-  p {
-    font-family: 'Roboto Mono', monospace;
-    font-size: 1.25em;
-    color: black;
+  .product-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid #e5e5e5;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: box-shadow 0.15s ease;
+  }
+  .product-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .product-card img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+  .product-card h3 {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem 0.25rem;
+    margin: 0;
+  }
+  .product-card p {
+    padding: 0 0.75rem 0.75rem;
+    margin: 0;
+    font-weight: 600;
   }
 </style>

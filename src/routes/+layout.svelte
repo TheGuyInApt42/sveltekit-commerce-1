@@ -1,34 +1,20 @@
 <script>
-  import { run } from 'svelte/legacy';
-
   import { onMount } from 'svelte';
-  import Header from '$lib/components/header/Header.svelte';
   import Header3 from '$lib/components/header/Header3.svelte';
-
-  // shopping cart
-  import ShoppingCart from '$lib/components/shopping-cart/ShoppingCart.svelte';
-  import { getCartItems } from '../store';
-  import { createCart } from '$utils/shopify';
+  import CartDrawer from '$lib/components/cart/CartDrawer.svelte';
   import Headroom from '$lib/components/headroom/Headroom.svelte';
   import FooterSocial from '$lib/components/footer-social/FooterSocial.svelte';
-  import Banner from '$lib/components/banner/Banner.svelte';
+  import { getCart } from '$lib/functions/cart.remote.js';
   import { page } from '$app/stores';
   import '../app.postcss';
-  /** @type {{children?: import('svelte').Snippet}} */
-  let { children } = $props();
 
-  // Variables
-  let cartId;
-  let checkoutUrl;
-  let cartCreatedAt;
-  let cartItems = $state([]);
+  let { children } = $props();
+  const cart = getCart();
 
   let currentPath = $derived($page?.url?.pathname);
 
-  // Track every time the client-side router changes paths
-  run(() => {
+  $effect(() => {
     if (typeof window !== 'undefined' && window.gtag && currentPath) {
-      // Small timeout ensures the DOM has updated document.title
       setTimeout(() => {
         window.gtag('event', 'page_view', {
           page_path: currentPath,
@@ -53,111 +39,10 @@
                         <p class="font-display playntrade-dark-blue" data-id="6">Sat. 	11:00am – 8:00pm</p>
                             <p class="font-display playntrade-dark-blue" data-id="0">Sun. 	12pm – 5pm</p>`;
 
-  //Functions
-  async function callCreateCart() {
-    console.log('create');
-    const cartRes = await createCart();
-
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('cartCreatedAt', Date.now());
-      localStorage.setItem('cartId', JSON.stringify(cartRes.body?.data?.cartCreate?.cart?.id));
-      localStorage.setItem(
-        'cartUrl',
-        JSON.stringify(cartRes.body?.data?.cartCreate?.cart?.checkoutUrl)
-      );
-    }
-  }
-
-  async function loadCart() {
-    const res = await getCartItems();
-    cartItems = res?.body?.data?.cart?.lines?.edges;
-  }
-
-  let showCart = $state(false);
-  let loading = $state(false);
-
-  async function openCart() {
-    console.log('parent open');
-    /* let alert = document.querySelector('.alert')
-  
-    alert.style.display = 'none' */
-    await loadCart();
-    showCart = true;
-  }
-  function hideCart() {
-    showCart = false;
-  }
-
-  function getCheckoutUrl() {
-    window.open(checkoutUrl, '_blank');
-    loading = false;
-  }
-
-  async function addToCart(event) {
-    await fetch('/cart.json', {
-      method: 'PATCH',
-      body: JSON.stringify({ cartId: cartId, variantId: event.detail.body })
-    });
-    // Wait for the API to finish before updating cart items
-    await loadCart();
-    loading = false;
-  }
-
-  async function removeProduct(event) {
-    if (typeof window !== 'undefined') {
-      cartId = JSON.parse(localStorage.getItem('cartId'));
-    }
-    await fetch('/cart.json', {
-      method: 'PUT',
-      body: JSON.stringify({
-        cartId,
-        lineId: event.detail.body.lineId,
-        quantity: event.detail.body.quantity,
-        variantId: event.detail.body.variantId
-      })
-    });
-    await loadCart();
-    loading = false;
-  }
-
-  onMount(async () => {
-    let todayHours = document.querySelector(`[data-id='${today}']`);
-    let highlightedDay = 'text-xl font-bold playntrade-turquoise'.split(' ');
-    todayHours.classList.add(...highlightedDay);
-
-    if (typeof window !== 'undefined') {
-      const cartIdString = localStorage.getItem('cartId');
-      if (cartIdString !== null && cartIdString !== 'undefined') {
-        // Parse the value only if it's not null
-        cartId = JSON.parse(cartIdString);
-        //console.log('id is', cartId);
-      } else {
-        console.log('Cart ID is not available in local storage.');
-      }
-      cartCreatedAt = JSON.parse(localStorage.getItem('cartCreatedAt'));
-      const checkoutUrlString = localStorage.getItem('cartUrl');
-      if (checkoutUrlString !== null && checkoutUrlString !== 'undefined') {
-        // Parse the value only if it's not null
-        checkoutUrl = JSON.parse(checkoutUrlString);
-        //console.log('id is', checkoutUrl);
-      } else {
-        console.log('Cart URL is not available in local storage.');
-      }
-
-      let currentDate = Date.now();
-      let difference = currentDate - cartCreatedAt;
-      let totalDays = Math.ceil(difference / (1000 * 3600 * 24));
-      let cartIdExpired = totalDays > 6;
-      if (cartIdString === 'undefined' || cartIdString === 'null' || cartIdExpired) {
-        await callCreateCart();
-      }
-      await loadCart();
-      document.addEventListener('keydown', (e) => {
-        let keyCode = e.keyCode;
-        if (keyCode === 27) {
-          showCart = false;
-        }
-      });
+  onMount(() => {
+    const todayHours = document.querySelector(`[data-id='${today}']`);
+    if (todayHours) {
+      todayHours.classList.add('text-xl', 'font-bold', 'playntrade-turquoise');
     }
   });
 </script>
@@ -165,37 +50,13 @@
 <div class="flex flex-col">
   <div id="header-wrapper">
     <Headroom>
-      <Header3 on:openCart={openCart} />
-
-      <!-- <div role="alert" class="alert shadow-lg bg-black border-black border-none">
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-  <div>
-    <h3 class="font-bold playntrade-blue">Website still in reconstruction!</h3> -->
-      <!-- <div class="text-xs">Check out our current deals!</div> -->
-      <!-- </div> -->
-      <!-- <button class="btn btn-sm">See</button> -->
-      <!-- </div>  -->
+      <Header3 {cart} />
     </Headroom>
   </div>
-  <!-- Check page route to see if should show banner-->
 
-  <!-- {#if $page.url.pathname === '/about' || $page.url.pathname === '/contact'}
-    <Banner bannerImg={'/images/sliderptn.jpg'} alt={'picture of inside store'} />
-  {/if} -->
-
-  <main class={`${showCart ? 'h-screen' : 'min-h-screen'} overflow-hidden`}>
-    {#if showCart}
-      <ShoppingCart
-        items={cartItems}
-        on:click={hideCart}
-        on:removeProduct={removeProduct}
-        on:addProduct={addToCart}
-        on:getCheckoutUrl={getCheckoutUrl}
-        bind:loading
-      />
-    {/if}
-
+  <main class="min-h-screen overflow-hidden">
     {@render children?.()}
+    <CartDrawer />
   </main>
 
   <footer>
@@ -208,22 +69,17 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-
     width: 100%;
     background-color: white;
-
     box-sizing: border-box;
     position: relative;
   }
-
   #header-wrapper {
     height: 90px;
   }
-
   footer {
     background: var(--black);
   }
-
   @media (min-width: 480px) {
     footer {
       padding: 2.5rem;

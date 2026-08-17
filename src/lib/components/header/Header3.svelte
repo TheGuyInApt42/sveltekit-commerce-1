@@ -1,7 +1,8 @@
 <script>
   import { Search, SquareMenu } from 'svelte-lucide';
-  import SearchBar from '$lib/components/searchbar/SearchBar2.svelte';
-  import { onMount } from 'svelte';
+  import { cartUI } from '$lib/state/cart-ui.svelte.js';
+
+  let { cart } = $props();
 
   let isMenuOpen = $state(false);
   let searchOpen = false;
@@ -26,52 +27,34 @@
 
 <header class="header">
   <div class="header-container">
-    <!-- Search Icon (Visible on Mobile, Right on Desktop) -->
-    <!-- <button on:click={toggleSearch} class="search-link mobile-search md:hidden">
-      <Search
-        class="search-icon p-1.5 text-[1.5rem] text-gray-800 transition-colors duration-300 ease-in-out"
-      />
-    </button>
-    {#if searchOpen}
-      <SearchBar isOpen={searchOpen} onClose={closeSearch} />
-    {/if} -->
-
-    <!-- <a href="#" id="mobile-search-link" class="search-link mobile-search md:hidden">
-      <Search
-        class="search-icon p-1.5 text-[1.5rem] text-gray-800 transition-colors duration-300 ease-in-out"
-      />
-    </a> -->
-
-    <!-- Logo -->
     <div class="logo">
       <a href="/">
         <img src="/images/logos/ptnlogo.png" alt="Play N Trade Logo" />
       </a>
     </div>
 
-    <!-- Hamburger Menu -->
     <button class="hamburger-menu md:hidden" onclick={toggleMenu} aria-expanded={isMenuOpen}>
       <SquareMenu class="menu-icon text-[2rem] text-gray-800" />
     </button>
 
-    <!-- Navigation -->
-    <nav class={`navigation ${isMenuOpen ? 'open' : ''}`}>
-      <ul>
-        <li><a href="/" onclick={closeMenu}>Home</a></li>
-        <li><a href="/about" onclick={closeMenu}>About</a></li>
-        <li><a href="/contact" onclick={closeMenu}>Contact</a></li>
-        <!-- Search Icon -->
-        <!-- <li class="main-nav-search last-menu-item flex justify-center">
-          <button
-            on:click={toggleSearch}
-            id="main-nav-search-link"
-            class="search-link desktop-search"
-          >
-            <Search size="32" class=" text-gray-800 transition-colors duration-300 ease-in-out" />
-          </button>
-        </li> -->
-      </ul>
-    </nav>
+    <div class="right-side">
+      <nav class={`navigation ${isMenuOpen ? 'open' : ''}`}>
+        <ul>
+          <li><a href="/" onclick={closeMenu}>Home</a></li>
+          <li><a href="/about" onclick={closeMenu}>About</a></li>
+          <li><a href="/contact" onclick={closeMenu}>Contact</a></li>
+        </ul>
+      </nav>
+
+      <button class="cart-toggle" onclick={() => (cartUI.open = true)}>
+        Cart
+        {#await cart then data}
+          {#if data && data.totalQuantity > 0}
+            <span class="cart-badge">{data.totalQuantity}</span>
+          {/if}
+        {/await}
+      </button>
+    </div>
   </div>
 </header>
 
@@ -119,7 +102,11 @@
   }
   .navigation {
     float: right;
-    font: 14px / 16px 'MuseoSlab500Regular', arial, helvetica, sans-serif;
+    font:
+      14px / 16px 'MuseoSlab500Regular',
+      arial,
+      helvetica,
+      sans-serif;
     font-family: 'Antic Slab', Arial, Helvetica, sans-serif;
   }
 
@@ -176,7 +163,9 @@
       gap: 10px;
       padding: 10px 0;
       border-top: 1px solid #ccc;
-      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      transition:
+        transform 0.3s ease-in-out,
+        opacity 0.3s ease-in-out;
       transform: translateY(-100%);
       opacity: 0;
     }
@@ -203,5 +192,35 @@
     .navigation ul li {
       padding: 10px 30px;
     }
+  }
+
+  .cart-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .cart-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.35rem;
+    border-radius: 999px;
+    background: var(--playntrade-blue, #1e3a8a);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+
+  .right-side {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
   }
 </style>
