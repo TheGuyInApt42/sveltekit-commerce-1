@@ -99,10 +99,10 @@
     padding: 0 30px;
     position: fixed;
     width: 100%;
-    height: 92px;
     top: 0;
     left: 0;
     z-index: 1000;
+    /* remove the fixed height: 92px */
   }
 
   .header-container {
@@ -111,6 +111,7 @@
     align-items: center;
     max-width: 1100px;
     margin: 0 auto;
+    height: 92px; /* move the fixed height here instead, so only the top row is locked */
   }
 
   .logo {
@@ -322,8 +323,18 @@
     cursor: pointer;
   }
   .search-close {
-    background: none;
+    background: #f3f4f6;
     border: none;
+    border-radius: 999px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    flex-shrink: 0;
+  }
+  .search-close:hover {
+    background: #e5e7eb;
   }
 </style>

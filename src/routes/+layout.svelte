@@ -75,9 +75,9 @@
   position: relative;
   min-width: 0; /* ← add this line */
 }
-  #header-wrapper {
-    height: 90px;
-  }
+#header-wrapper {
+  height: 92px; /* this still reserves space for just the top nav row */
+}
   footer {
     background: var(--black);
   }
