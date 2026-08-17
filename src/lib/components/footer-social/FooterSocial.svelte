@@ -28,14 +28,6 @@
         >
           <span class="instagram-icon"></span>
         </ExternalLink>
-
-        <!-- <a href="https://twitter.com/pntcamphill?lang=en" class="mr-1" target="_blank">
-            <span class="twitter-icon mb-1"></span>
-        </a>  -->
-
-        <!-- <a href="https://www.youtube.com/GameStopVideo" class="mr-1" target="_blank">
-				<span class="youtube-icon mb-1"></span>
-			</a> -->
       </div>
     </div>
 
@@ -45,8 +37,16 @@
     </div>
   </div>
 
-  <div class="flex w-full flex-col">
-    <div class="divider"></div>
+  <div class="footer-divider"></div>
+
+  <div class="footer-legal">
+    <a href="/policies/privacy">Privacy Policy</a>
+    <span class="legal-sep">·</span>
+    <a href="/policies/refund">Refund Policy</a>
+    <span class="legal-sep">·</span>
+    <a href="/policies/shipping">Shipping Policy</a>
+    <span class="legal-sep">·</span>
+    <a href="/policies/terms">Terms of Service</a>
   </div>
 
   <div class="flex flex-col pb-2 md:pb-0">
@@ -87,29 +87,43 @@
     display: inline-table;
   }
 
-  /*
-	.twitter-icon {
-        vertical-align: middle;
-        width: 40px;
-        height: 40px;
-        background: url('twitterwhite.png');
-        display: inline-table;
-    }
-
-	 .youtube-icon {
-		vertical-align: middle;
-		width: 40px;
-		height: 40px;
-		background: url('youtube.png');
-		display: inline-block;
-	} */
-
   .instagram-icon {
     vertical-align: middle;
     width: 48px;
     height: 48px;
     background: url('/images/instagram48.png');
     display: inline-block;
+  }
+
+  .footer-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 2rem 0 1.5rem;
+  }
+
+  .footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+  }
+
+  .footer-legal a {
+    color: var(--playntrade-turquoise, #22d3ee);
+    text-decoration: none;
+  }
+
+  .footer-legal a:hover {
+    text-decoration: underline;
+  }
+
+  .legal-sep {
+    color: rgba(255, 255, 255, 0.3);
   }
 
   div {

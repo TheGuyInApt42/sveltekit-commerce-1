@@ -66,14 +66,15 @@
 
 <style>
   main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    background-color: white;
-    box-sizing: border-box;
-    position: relative;
-  }
+  flex: 1;
+  
+  flex-direction: column;
+  width: 100%;
+  background-color: white;
+  box-sizing: border-box;
+  position: relative;
+  min-width: 0; /* ← add this line */
+}
   #header-wrapper {
     height: 90px;
   }

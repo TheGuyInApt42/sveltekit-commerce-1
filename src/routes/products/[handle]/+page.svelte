@@ -9,6 +9,17 @@
   const productQuery = $derived(getProduct(handle));
 
   let selectedImageIndex = $state(0);
+
+  // Extracts a platform code like (PS2), (XBX), (NSW) from the title, since
+  // that's how your Alice POS → Shopify pipeline encodes platform per SKU.
+  function extractPlatform(title) {
+    const match = title?.match(/\(([^)]+)\)\s*$/);
+    return match ? match[1] : null;
+  }
+
+  function stripPlatform(title) {
+    return title?.replace(/\s*\([^)]+\)\s*$/, '') ?? title;
+  }
 </script>
 
 {#await productQuery}
@@ -23,6 +34,8 @@
     {@const images = product.images.edges.map((e) => e.node)}
     {@const variant = product.variants.edges[0]?.node}
     {@const inStock = variant?.availableForSale}
+    {@const platform = extractPlatform(product.title)}
+    {@const displayTitle = stripPlatform(product.title)}
 
     <HeadTags
       metaData={{
@@ -31,6 +44,18 @@
         keywords: ['playntrade', product.title]
       }}
     />
+
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="sep">/</span>
+      <a href="/shop">Shop</a>
+      {#if platform}
+        <span class="sep">/</span>
+        <a href={`/shop?type=${platform}`}>{platform}</a>
+      {/if}
+      <span class="sep">/</span>
+      <span class="current">{displayTitle}</span>
+    </nav>
 
     <div class="product-page">
       <div class="gallery">
@@ -41,7 +66,10 @@
               alt={images[selectedImageIndex].altText ?? product.title}
             />
           {:else}
-            <img src="/images/placeholder.png" alt={product.title} />
+            <div class="image-placeholder">
+              <img src="/images/logos/ptnlogo.png" alt="" class="placeholder-logo" />
+              <span>Cover art coming soon</span>
+            </div>
           {/if}
         </div>
 
@@ -61,7 +89,14 @@
       </div>
 
       <div class="details">
-        <h1>{product.title}</h1>
+        <div class="badges">
+          {#if platform}
+            <span class="badge platform-badge">{platform}</span>
+          {/if}
+          <span class="badge condition-badge">Used · Tested</span>
+        </div>
+
+        <h1>{displayTitle}</h1>
 
         <p class="price">
           {#if variant}
@@ -70,14 +105,20 @@
         </p>
 
         <p class="stock-status" class:in-stock={inStock} class:out-of-stock={!inStock}>
-          {inStock ? 'In stock' : 'Sold out'}
+          {inStock ? 'Only 1 left in stock' : 'Sold out'}
         </p>
 
-        {#if product.descriptionHtml}
-          <div class="description">
+        <div class="description">
+          {#if product.descriptionHtml}
             {@html product.descriptionHtml}
-          </div>
-        {/if}
+          {:else}
+            <p>
+              Tested and in working condition. Every item at Camp Hill Play N Trade is real,
+              in-store inventory — stop by or give us a call if you'd like more details on grading
+              or condition before you buy.
+            </p>
+          {/if}
+        </div>
 
         {#if inStock && variant}
           <AddToCartButton variantId={variant.id} />
@@ -103,13 +144,37 @@
     padding: 4rem 1rem;
   }
 
+  .breadcrumb {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 0;
+    font-size: 0.85rem;
+    color: #666;
+  }
+  .breadcrumb a {
+    color: #666;
+    text-decoration: none;
+  }
+  .breadcrumb a:hover {
+    color: var(--playntrade-blue, #1e3a8a);
+    text-decoration: underline;
+  }
+  .breadcrumb .sep {
+    margin: 0 0.4rem;
+    color: #ccc;
+  }
+  .breadcrumb .current {
+    color: #333;
+    font-weight: 600;
+  }
+
   .product-page {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
     max-width: 1100px;
     margin: 0 auto;
-    padding: 2rem 1rem 4rem;
+    padding: 1.5rem 1rem 4rem;
   }
 
   @media (min-width: 768px) {
@@ -128,6 +193,24 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: #999;
+    font-size: 0.85rem;
+    background: repeating-linear-gradient(45deg, #f5f5f5, #f5f5f5 10px, #efefef 10px, #efefef 20px);
+  }
+  .placeholder-logo {
+    width: 80px;
+    height: auto;
+    opacity: 0.5;
   }
 
   .thumbnails {
@@ -152,6 +235,29 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .badges {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .platform-badge {
+    background: var(--playntrade-blue, #1e3a8a);
+    color: white;
+  }
+  .condition-badge {
+    background: #f3f4f6;
+    color: #374151;
   }
 
   .details h1 {
@@ -185,6 +291,7 @@
   .description {
     margin-bottom: 2rem;
     line-height: 1.6;
+    color: #444;
   }
 
   .buy-button {

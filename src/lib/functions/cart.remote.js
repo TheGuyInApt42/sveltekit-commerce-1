@@ -81,3 +81,21 @@ export const removeCartLine = command(z.string(), async (lineId) => {
   );
   await getCart().refresh();
 });
+
+
+export const updateCartLine = command(
+  z.object({ lineId: z.string(), quantity: z.number() }),
+  async ({ lineId, quantity }) => {
+    const event = getRequestEvent();
+    const cartId = event.cookies.get(CART_COOKIE);
+    if (!cartId) return;
+
+    await shopifyFetch(
+      `mutation($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+        cartLinesUpdate(cartId: $cartId, lines: $lines) { cart { id } }
+      }`,
+      { cartId, lines: [{ id: lineId, quantity }] }
+    );
+    await getCart().refresh();
+  }
+);

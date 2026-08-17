@@ -1,11 +1,6 @@
 <script>
   /** @type {{strokeColor?: string, type: any, width?: string, height?: string}} */
-  let {
-    strokeColor = '#000',
-    type,
-    width = '24px;',
-    height = '24px;'
-  } = $props();
+  let { strokeColor = '#000', type, width = '24px;', height = '24px;' } = $props();
 </script>
 
 <div>

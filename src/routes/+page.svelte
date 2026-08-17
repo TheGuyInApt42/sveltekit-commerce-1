@@ -1,7 +1,7 @@
 <script>
   import HeadTags from '$lib/components/head-tags/HeadTags.svelte';
   import HeroCarousel from '$lib/components/hero/HeroCarousel.svelte';
-  import { getFeaturedProducts } from '$lib/functions/products.remote.js';
+
   import { getProducts } from '$lib/functions/products.remote.js';
 
   const metaData = {
@@ -39,7 +39,14 @@
 
 <HeadTags {metaData} />
 
-<HeroCarousel {products} />
+<section class="hero">
+  <div class="hero-content">
+    <img src="/images/logos/ptnlogo.png" alt="Play N Trade" class="hero-logo" />
+    <h1>Camp Hill's Home for Retro & Modern Video Games</h1>
+    <p>Real, in-stock inventory — browse it all right here.</p>
+    <a href="/shop" class="hero-cta">Shop by System</a>
+  </div>
+</section>
 
 <section class="systems">
   <h2>Shop by System</h2>
@@ -53,13 +60,22 @@
 <section class="new-arrivals">
   <h2>New Arrivals</h2>
   <div class="arrivals-grid">
-    {#each products as product (product.id)}
+    {#each products.slice(0, 8) as product (product.id)}
       <a href={`/products/${product.handle}`} class="product-card">
-        <img src={product.featuredImage?.url} alt={product.title} />
+        {#if product.featuredImage?.url}
+          <img src={product.featuredImage.url} alt={product.title} />
+        {:else}
+          <div class="card-placeholder">
+            <img src="/images/logos/ptnlogo.png" alt="" />
+          </div>
+        {/if}
         <h3>{product.title}</h3>
         <p>${product.variants.edges[0]?.node.price.amount}</p>
       </a>
     {/each}
+  </div>
+  <div class="view-all">
+    <a href="/shop" class="view-all-btn">View All New Arrivals</a>
   </div>
 </section>
 
@@ -112,8 +128,38 @@
   }
   .arrivals-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
+  }
+  .card-placeholder {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: repeating-linear-gradient(45deg, #f5f5f5, #f5f5f5 10px, #efefef 10px, #efefef 20px);
+  }
+  .card-placeholder img {
+    width: 40%;
+    opacity: 0.4;
+  }
+  .view-all {
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+  .view-all-btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border: 2px solid var(--playntrade-blue, #1e3a8a);
+    color: var(--playntrade-blue, #1e3a8a);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.15s ease;
+  }
+  .view-all-btn:hover {
+    background: var(--playntrade-blue, #1e3a8a);
+    color: white;
   }
   .product-card {
     display: block;
@@ -141,5 +187,72 @@
     padding: 0 0.75rem 0.75rem;
     margin: 0;
     font-weight: 600;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 2rem;
+  }
+  .divider::before,
+  .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: black;
+  }
+  .divider span {
+    padding: 0 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: black;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, var(--playntrade-blue, #1e3a8a), #0f1f47);
+    padding: 5rem 1.5rem;
+    text-align: center;
+    color: white;
+  }
+  .hero-content {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .hero-logo {
+    height: 60px;
+    width: auto;
+    margin-bottom: 1.5rem;
+    filter: brightness(0) invert(1); /* renders logo white on the dark background */
+  }
+  .hero h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    line-height: 1.2;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+  }
+  .hero-cta {
+    display: inline-block;
+    padding: 0.9rem 2rem;
+    background: white;
+    color: var(--playntrade-blue, #1e3a8a);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform 0.15s ease;
+  }
+  .hero-cta:hover {
+    transform: scale(1.03);
+  }
+
+  @media (min-width: 768px) {
+    .hero h1 {
+      font-size: 2.75rem;
+    }
   }
 </style>

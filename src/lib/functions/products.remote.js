@@ -59,12 +59,44 @@ export const getFeaturedProducts = query(async () => {
 });
 
 
-export const getProductsByType = query(z.string().optional(), async (type) => {
-  const filterQuery = type ? `product_type:${JSON.stringify(type)}` : '';
 
+export const getProductsByType = query(
+  z.object({ type: z.string().optional(), cursor: z.string().optional() }).optional(),
+  async (args) => {
+    const { type, cursor } = args ?? {};
+    const filterQuery = type ? `product_type:${JSON.stringify(type)}` : '';
+
+    const data = await shopifyFetch(
+      `query($query: String, $cursor: String) {
+        products(first: 24, after: $cursor, query: $query) {
+          pageInfo { hasNextPage endCursor }
+          edges {
+            node {
+              id
+              title
+              handle
+              featuredImage { url altText }
+              variants(first: 1) {
+                edges { node { id price { amount currencyCode } } }
+              }
+            }
+          }
+        }
+      }`,
+      { query: filterQuery, cursor }
+    );
+
+    return {
+      products: data.products.edges.map((e) => e.node),
+      pageInfo: data.products.pageInfo
+    };
+  }
+);
+
+export const searchProducts = query(z.string(), async (term) => {
   const data = await shopifyFetch(
     `query($query: String) {
-      products(first: 100, query: $query) {
+      products(first: 40, query: $query) {
         edges {
           node {
             id
@@ -78,8 +110,7 @@ export const getProductsByType = query(z.string().optional(), async (type) => {
         }
       }
     }`,
-    { query: filterQuery }
+    { query: `title:*${term}*` }
   );
-
   return data.products.edges.map((e) => e.node);
 });

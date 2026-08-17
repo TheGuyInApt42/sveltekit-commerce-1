@@ -40,7 +40,6 @@
     "cookie": "^0.6.0",
     "csv-parse": "^7.0.2",
     "csv-stringify": "^6.8.3",
-    "daisyui": "^4.10.2",
     "dayjs": "^1.11.11",
     "embla-carousel": "^8.6.0",
     "embla-carousel-auto-scroll": "^8.5.1",

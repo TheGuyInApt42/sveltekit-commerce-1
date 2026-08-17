@@ -1,10 +1,10 @@
 <script>
-  import { getCart, removeCartLine } from '$lib/functions/cart.remote.js';
+  import { getCart, removeCartLine, updateCartLine } from '$lib/functions/cart.remote.js';
   import { cartUI } from '$lib/state/cart-ui.svelte.js';
 
   const cart = getCart();
 
-  /* $effect(() => {
+  $effect(() => {
     if (!cartUI.open) return;
 
     function handleKeydown(e) {
@@ -13,7 +13,7 @@
 
     window.addEventListener('keydown', handleKeydown);
     return () => window.removeEventListener('keydown', handleKeydown);
-  }); */
+  });
 </script>
 
 {#if cartUI.open}
@@ -21,14 +21,21 @@
   <aside class="drawer">
     <div class="drawer-header">
       <h2>Your Cart</h2>
-      <button class="close-btn" onclick={() => (cartUI.open = false)}>✕</button>
+      <button class="close-btn" aria-label="Close cart" onclick={() => (cartUI.open = false)}
+        >✕</button
+      >
     </div>
 
     {#await cart}
       <p class="status">Loading cart...</p>
     {:then data}
       {#if !data || data.lines.edges.length === 0}
-        <p class="status">Your cart is empty.</p>
+        <div class="empty-state">
+          <p class="status">Your cart is empty.</p>
+          <a href="/" class="continue-btn" onclick={() => (cartUI.open = false)}
+            >Continue Shopping</a
+          >
+        </div>
       {:else}
         <div class="lines">
           {#each data.lines.edges as { node } (node.id)}
@@ -45,7 +52,23 @@
                   ${node.merchandise.price.amount}
                   {node.merchandise.price.currencyCode}
                 </p>
-                <button class="remove" onclick={() => removeCartLine(node.id)}>Remove</button>
+                <div class="line-actions">
+                  <div class="qty-stepper">
+                    <button
+                      aria-label="Decrease quantity"
+                      onclick={() =>
+                        updateCartLine({ lineId: node.id, quantity: node.quantity - 1 })}
+                      disabled={node.quantity <= 1}>−</button
+                    >
+                    <span>{node.quantity}</span>
+                    <button
+                      aria-label="Increase quantity"
+                      onclick={() =>
+                        updateCartLine({ lineId: node.id, quantity: node.quantity + 1 })}>+</button
+                    >
+                  </div>
+                  <button class="remove" onclick={() => removeCartLine(node.id)}>Remove</button>
+                </div>
               </div>
             </div>
           {/each}
@@ -56,6 +79,7 @@
             <span>Subtotal</span>
             <span>${data.cost.subtotalAmount.amount}</span>
           </div>
+          <p class="shipping-note">Taxes and shipping calculated at checkout</p>
           <a href={data.checkoutUrl} class="checkout-btn">Checkout</a>
         </div>
       {/if}
@@ -71,7 +95,7 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.4);
     border: none;
-    z-index: 40;
+    z-index: 1100;
     cursor: default;
   }
   .drawer {
@@ -81,7 +105,7 @@
     height: 100%;
     width: min(400px, 100vw);
     background: white;
-    z-index: 50;
+    z-index: 1101;
     display: flex;
     flex-direction: column;
     box-shadow: -4px 0 16px rgba(0, 0, 0, 0.15);
@@ -93,16 +117,45 @@
     padding: 1.25rem;
     border-bottom: 1px solid #eee;
   }
+  .drawer-header h2 {
+    font-family: 'Antic Slab', Arial, Helvetica, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+  }
   .close-btn {
     background: none;
     border: none;
     font-size: 1.25rem;
+    line-height: 1;
+    color: #1a1a1a;
     cursor: pointer;
+    padding: 0.25rem;
+  }
+  .close-btn:hover {
+    color: #007bff;
   }
   .status {
     padding: 2rem;
     text-align: center;
     color: #666;
+  }
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+  }
+  .continue-btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--playntrade-blue, #1e3a8a);
+    color: white;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
   }
   .lines {
     flex: 1;
@@ -122,6 +175,9 @@
     border-radius: 0.25rem;
     background: #f5f5f5;
   }
+  .line-info {
+    flex: 1;
+  }
   .line-info a {
     font-weight: 600;
     text-decoration: none;
@@ -131,6 +187,37 @@
   .line-price {
     margin: 0.25rem 0;
     font-weight: 600;
+  }
+  .line-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.4rem;
+  }
+  .qty-stepper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.375rem;
+    padding: 0.15rem 0.5rem;
+  }
+  .qty-stepper button {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #333;
+    width: 1.2rem;
+  }
+  .qty-stepper button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+  }
+  .qty-stepper span {
+    font-size: 0.85rem;
+    min-width: 1rem;
+    text-align: center;
   }
   .remove {
     background: none;
@@ -149,6 +236,11 @@
     display: flex;
     justify-content: space-between;
     font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .shipping-note {
+    font-size: 0.75rem;
+    color: #888;
     margin-bottom: 1rem;
   }
   .checkout-btn {
@@ -160,13 +252,5 @@
     border-radius: 0.5rem;
     text-decoration: none;
     font-weight: 700;
-  }
-
-  /* in CartDrawer.svelte */
-  .overlay {
-    z-index: 1100;
-  }
-  .drawer {
-    z-index: 1101;
   }
 </style>
